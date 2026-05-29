@@ -1,0 +1,1 @@
+import{r as e,t}from"./motion-wueDUonX.js";var n=e(),r={hidden:{opacity:0,y:32},visible:{opacity:1,y:0}};function i({children:e,className:i=``,delay:a=0}){return(0,n.jsx)(t.section,{className:i,initial:`hidden`,whileInView:`visible`,viewport:{once:!0,amount:.05,margin:`100px`},variants:r,transition:{duration:.7,ease:`easeOut`,delay:a},children:e})}export{i as t};

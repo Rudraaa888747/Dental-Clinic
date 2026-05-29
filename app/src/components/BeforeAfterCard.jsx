@@ -39,6 +39,9 @@ function BeforeAfterCard({ item }) {
         <img
           src={item.after}
           alt={`${item.title} after treatment`}
+          loading="lazy"
+          width="800"
+          height="600"
           className="h-full w-full object-cover select-none"
           draggable="false"
         />
@@ -49,6 +52,9 @@ function BeforeAfterCard({ item }) {
           <img
             src={item.before}
             alt={`${item.title} before treatment`}
+            loading="lazy"
+            width="800"
+            height="600"
             className="h-full w-full object-cover select-none"
             draggable="false"
           />

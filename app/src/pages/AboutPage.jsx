@@ -14,6 +14,9 @@ function AboutPage({ content }) {
             <img
               src={content.doctor.image}
               alt={content.doctor.name}
+              loading="lazy"
+              width="800"
+              height="1200"
               className="h-[450px] lg:h-[600px] w-full rounded-[32px] object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-navy via-navy/20 to-transparent opacity-60 rounded-[32px]"></div>

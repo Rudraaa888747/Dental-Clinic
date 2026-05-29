@@ -91,6 +91,9 @@ function TestimonialSlider({ testimonials }) {
                     <img
                       src={item.image}
                       alt={item.name}
+                      loading="lazy"
+                      width="48"
+                      height="48"
                       className="w-12 h-12 rounded-full object-cover ring-2 ring-gold/20"
                     />
                   ) : (

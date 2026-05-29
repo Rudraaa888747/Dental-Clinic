@@ -95,7 +95,7 @@ export function PatientProfileSlideover({ isOpen, onClose, patientProfile, loadi
           <div className="flex gap-6 items-start">
             <div className="w-24 h-24 rounded-2xl bg-white/5 border border-white/10 overflow-hidden flex items-center justify-center text-4xl text-gold font-display shadow-inner">
               {patientProfile.patient.avatarUrl ? (
-                <img src={patientProfile.patient.avatarUrl} alt={patientProfile.patient.fullName} className="w-full h-full object-cover" />
+                <img src={patientProfile.patient.avatarUrl} alt={patientProfile.patient.fullName} loading="lazy" width="96" height="96" className="w-full h-full object-cover" />
               ) : (
                 patientProfile.patient.fullName.charAt(0)
               )}

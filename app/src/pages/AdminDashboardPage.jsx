@@ -578,7 +578,7 @@ function AdminDashboardPage() {
             <div className="hidden lg:block w-px h-6 bg-white/10 mx-2"></div>
             <div className="relative shrink-0">
               <div className="flex items-center gap-3 cursor-pointer group" onClick={() => setIsProfileMenuOpen(!isProfileMenuOpen)}>
-                <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=100&q=80" alt="Admin" className="w-8 h-8 lg:w-9 lg:h-9 shrink-0 rounded-full object-cover border border-white/10 group-hover:border-gold/50 transition-colors" />
+                <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=100&q=80" alt="Admin" loading="lazy" width="36" height="36" className="w-8 h-8 lg:w-9 lg:h-9 shrink-0 rounded-full object-cover border border-white/10 group-hover:border-gold/50 transition-colors" />
                 <div className="hidden lg:block">
                   <p className="text-sm font-medium text-white group-hover:text-gold transition-colors">{currentUser?.fullName}</p>
                   <p className="text-[10px] text-support-300 uppercase tracking-widest">{currentUser?.roleLabel}</p>
@@ -839,7 +839,7 @@ function AdminDashboardPage() {
                       <div className="flex justify-between items-start">
                         <div className="flex items-center gap-4">
                           <div className="w-14 h-14 rounded-full bg-white/5 border border-white/10 overflow-hidden flex items-center justify-center text-gold text-xl font-display shadow-inner">
-                            {patient.avatarUrl ? <img src={patient.avatarUrl} alt={patient.fullName} className="w-full h-full object-cover" /> : patient.fullName.charAt(0)}
+                            {patient.avatarUrl ? <img src={patient.avatarUrl} alt={patient.fullName} loading="lazy" width="40" height="40" className="w-full h-full object-cover" /> : patient.fullName.charAt(0)}
                           </div>
                           <div>
                             <h4 className="font-display text-lg text-white group-hover:text-gold transition-colors">{patient.fullName}</h4>

@@ -78,7 +78,7 @@ function HomePage({ content }) {
             >
               <div className="flex -space-x-4">
                 {[1, 2, 3, 4].map((i) => (
-                  <img key={i} className="w-12 h-12 rounded-full border-2 border-[#020817] object-cover shadow-lg" src={`https://randomuser.me/api/portraits/women/${30+i}.jpg`} alt="Patient" />
+                  <img key={i} className="w-12 h-12 rounded-full border-2 border-[#020817] object-cover shadow-lg" src={`https://randomuser.me/api/portraits/women/${30+i}.jpg`} alt="Patient" loading="lazy" width="48" height="48" />
                 ))}
               </div>
               <div>
@@ -102,8 +102,14 @@ function HomePage({ content }) {
                 <div className="absolute inset-0 bg-[#020817]/20 mix-blend-overlay z-10 pointer-events-none"></div>
                 <div className="absolute inset-0 bg-gradient-to-t from-[#020817] via-transparent to-transparent z-10 pointer-events-none opacity-80"></div>
                 <img
-                  src="/hero.png"
+                  src="/hero.webp"
+                  srcSet="/hero-small.webp 640w, /hero-medium.webp 1024w, /hero.webp 1920w"
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 100vw, 50vw"
                   alt="Luxury Dental Care"
+                  width="1920"
+                  height="1080"
+                  loading="eager"
+                  fetchpriority="high"
                   className="w-full h-full object-cover scale-[1.02] hover:scale-105 transition-transform duration-[20s] ease-linear"
                 />
               </div>
@@ -156,6 +162,9 @@ function HomePage({ content }) {
                <img
                  src={content.doctor.image}
                  alt={content.doctor.name}
+                 width="800"
+                 height="1200"
+                 loading="lazy"
                  className="h-[450px] lg:h-[600px] w-full rounded-[32px] object-cover transition-transform duration-700 group-hover:scale-105"
                />
                <div className="absolute inset-0 bg-gradient-to-t from-navy via-navy/20 to-transparent opacity-80 rounded-[32px]"></div>

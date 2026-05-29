@@ -39,6 +39,9 @@ function BlogPostPage({ content }) {
           <img
             src={post.image}
             alt={post.title}
+            loading="lazy"
+            width="800"
+            height="520"
             className="h-[400px] w-full object-cover sm:h-[520px]"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-navy via-navy/40 to-transparent"></div>

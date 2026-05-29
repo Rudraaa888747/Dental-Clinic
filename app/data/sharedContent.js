@@ -203,9 +203,9 @@ export const defaultContent = {
       id: 1,
       title: 'Smile Brightening',
       before:
-        '/before_treatment.png',
+        '/before_treatment.webp',
       after:
-        '/after_treatment.png',
+        '/after_treatment.webp',
       image:
         'https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?auto=format&fit=crop&w=900&q=80',
     },
@@ -217,7 +217,7 @@ export const defaultContent = {
       after:
         'https://images.unsplash.com/photo-1606811971618-4486d14f3f99?auto=format&fit=crop&w=900&q=80',
       image:
-        '/orthodontic_care.png',
+        '/orthodontic_care.webp',
     },
     {
       id: 3,
@@ -251,7 +251,7 @@ export const defaultContent = {
       excerpt:
         'Discover how AI, 3D scanning, and digital smile design are revolutionizing modern dental treatments.',
       image:
-        '/blog_digital.png',
+        '/blog_digital.webp',
       category: 'Dental Technology',
       content: [
         'Gone are the days of messy dental impressions. Modern digital dentistry utilizes highly accurate 3D intraoral scanners that create a perfect digital replica of your teeth in minutes.',
@@ -265,7 +265,7 @@ export const defaultContent = {
       excerpt:
         'A comprehensive comparison to help you decide which orthodontic treatment best suits your lifestyle and goals.',
       image:
-        '/blog_aligners.png',
+        '/blog_aligners.webp',
       category: 'Orthodontics',
       content: [
         'Choosing between clear aligners and traditional braces depends on several factors, including the complexity of your case, your lifestyle, and your aesthetic preferences.',

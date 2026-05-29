@@ -34,7 +34,7 @@ function BlogPage({ content }) {
               className="overflow-hidden rounded-[32px] glass-panel-dark border-white/5 shadow-2xl transition-all duration-500 hover:-translate-y-2 hover:shadow-gold group"
             >
               <div className="relative overflow-hidden h-72">
-                <img src={post.image} alt={post.title} className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                <img src={post.image} alt={post.title} loading="lazy" width="600" height="400" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
                 <div className="absolute inset-0 bg-navy/20 mix-blend-overlay"></div>
               </div>
               <div className="p-8 sm:p-10 relative">
