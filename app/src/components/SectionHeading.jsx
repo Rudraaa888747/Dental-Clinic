@@ -3,14 +3,14 @@ function SectionHeading({ eyebrow, title, description, align = 'left' }) {
 
   return (
     <div className={`max-w-2xl ${alignment}`}>
-      <span className="mb-4 inline-flex rounded-full border border-skybrand-200 bg-white/80 px-4 py-1 text-xs font-semibold uppercase tracking-[0.28em] text-skybrand-700 shadow-sm">
+      <div className="inline-flex items-center gap-2 rounded-full border border-gold/30 bg-gold/5 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.25em] text-gold-light backdrop-blur-md mb-6">
         {eyebrow}
-      </span>
-      <h2 className="font-display text-3xl font-bold tracking-tight text-ink sm:text-4xl lg:text-5xl">
+      </div>
+      <h2 className="font-display text-4xl font-light tracking-tight text-white sm:text-5xl lg:text-6xl leading-tight">
         {title}
       </h2>
       {description ? (
-        <p className="mt-4 text-base leading-7 text-slate-600 sm:text-lg">
+        <p className="mt-6 text-base leading-relaxed text-support-200 sm:text-lg font-light">
           {description}
         </p>
       ) : null}

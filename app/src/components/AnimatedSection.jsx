@@ -11,7 +11,7 @@ function AnimatedSection({ children, className = '', delay = 0 }) {
       className={className}
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: true, amount: 0.2 }}
+      viewport={{ once: true, amount: 0.05, margin: "100px" }}
       variants={variants}
       transition={{ duration: 0.7, ease: 'easeOut', delay }}
     >

@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion'
+import { Sparkles, Award, ShieldCheck } from 'lucide-react'
 
 const container = {
   hidden: { opacity: 0 },
@@ -12,15 +13,15 @@ const container = {
 }
 
 const itemVariant = {
-  hidden: { opacity: 0, y: 10 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: 'easeOut' } },
 }
 
 function TrustBar({ clinic }) {
   const items = [
-    `${clinic.yearsExperience}+ years of expertise`,
-    `${clinic.happyPatients} happy patients`,
-    'Premium sterilization & digital diagnostics',
+    { text: `${clinic.yearsExperience}+ years of excellence`, icon: Award },
+    { text: `${clinic.happyPatients} transformative smiles`, icon: Sparkles },
+    { text: 'Premium sterile environment', icon: ShieldCheck },
   ]
 
   return (
@@ -31,15 +32,19 @@ function TrustBar({ clinic }) {
       viewport={{ once: true, amount: 0.2 }}
       className="grid gap-4 sm:grid-cols-3"
     >
-      {items.map((item) => (
-        <motion.div
-          key={item}
-          variants={itemVariant}
-          className="rounded-2xl border border-skybrand-100 bg-white/80 px-5 py-4 text-sm font-medium text-slate-600 shadow-sm"
-        >
-          {item}
-        </motion.div>
-      ))}
+      {items.map((item, index) => {
+        const Icon = item.icon
+        return (
+          <motion.div
+            key={index}
+            variants={itemVariant}
+            className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md px-5 py-4 flex flex-col gap-3 group transition-colors hover:bg-white/10"
+          >
+            <Icon size={20} className="text-gold" />
+            <span className="text-sm font-light text-support-200 group-hover:text-white transition-colors">{item.text}</span>
+          </motion.div>
+        )
+      })}
     </motion.div>
   )
 }

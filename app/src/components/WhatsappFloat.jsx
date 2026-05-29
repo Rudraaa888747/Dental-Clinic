@@ -1,20 +1,29 @@
 import { MessageCircleMore } from 'lucide-react'
 
+import { Calendar } from 'lucide-react'
+import { Link } from 'react-router-dom'
+
 function WhatsappFloat({ clinic }) {
   const message = encodeURIComponent(
-    `Hello ${clinic.name}, I would like to book an appointment.`,
+    `Hello ${clinic.name}, I would like to arrange a private consultation.`,
   )
 
   return (
-    <a
-      href={`https://wa.me/${clinic.whatsapp}?text=${message}`}
-      target="_blank"
-      rel="noreferrer"
-      className="fixed bottom-5 right-5 z-50 inline-flex items-center gap-3 rounded-full bg-[#25D366] px-5 py-4 text-sm font-semibold text-white shadow-glow transition hover:scale-105"
-    >
-      <MessageCircleMore size={18} />
-      WhatsApp
-    </a>
+    <>
+      {/* Desktop Floating WhatsApp */}
+      <div className="hidden sm:block fixed bottom-6 right-6 z-50 group">
+        <a
+          href={`https://wa.me/${clinic.whatsapp}?text=${message}`}
+          target="_blank"
+          rel="noreferrer"
+          className="relative inline-flex items-center gap-3 rounded-full bg-navy-900 border border-gold/30 px-6 py-4 text-sm font-medium text-gold shadow-2xl transition-all duration-300 hover:scale-105 hover:bg-gold hover:text-navy hover:border-gold"
+        >
+          <MessageCircleMore size={20} />
+          <span>VIP Support</span>
+        </a>
+      </div>
+
+    </>
   )
 }
 

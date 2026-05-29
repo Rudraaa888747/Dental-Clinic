@@ -1,12 +1,30 @@
 import bcrypt from 'bcryptjs'
 import express from 'express'
-import jwt from 'jsonwebtoken'
-import { isDatabaseConnected } from '../config/db.js'
-import { defaultContent } from '../data/defaultContent.js'
-import { requireAuth } from '../middleware/auth.js'
-import { Appointment } from '../models/Appointment.js'
-import { ClinicContent } from '../models/ClinicContent.js'
-import { Inquiry } from '../models/Inquiry.js'
+import { asyncHandler } from '../utils/asyncHandler.js'
+import { requireAuth, requirePermission } from '../middleware/auth.js'
+import {
+  createAdminBooking,
+  createAdminPatient,
+  createInvoiceRecord,
+  generateAdminReport,
+  getAdminDashboard,
+  getActivityLogs,
+  getAdminPatientProfile,
+  getCatalog,
+  getInvoiceList,
+  getNotifications,
+  getSettings,
+  getSession,
+  patchAppointmentStatus,
+  patchInvoice,
+  patchSettings,
+  patchNotificationRead,
+  replyReview,
+  searchAdminEntities,
+  syncTreatments,
+} from '../controllers/adminController.js'
+import { authenticateAdmin } from '../services/authService.js'
+import { PERMISSIONS } from '../config/rbac.js'
 
 const router = express.Router()
 const LOGIN_WINDOW_MS = 15 * 60 * 1000
@@ -84,21 +102,14 @@ router.post('/login', async (request, response) => {
     })
   }
 
-  const { email: configuredEmail, password: configuredPassword } =
-    getConfiguredAdminCredentials()
-  const passwordHash = await bcrypt.hash(configuredPassword, 10)
-  const isValid =
-    email === configuredEmail && (await bcrypt.compare(password, passwordHash))
-
-  if (!isValid) {
-    return response.status(401).json({ message: 'Invalid admin credentials.' })
-  }
+  const { email: configuredEmail } = getConfiguredAdminCredentials()
+  const authenticated = await authenticateAdmin({
+    email: email === 'admin@example.com' ? configuredEmail : email,
+    password,
+  })
 
   loginAttempts.delete(ip)
-
-  const token = jwt.sign({ email }, process.env.JWT_SECRET, {
-    expiresIn: '1d',
-  })
+  const token = authenticated.token
 
   response.cookie('clinic_admin_token', token, {
     httpOnly: true,
@@ -108,7 +119,7 @@ router.post('/login', async (request, response) => {
     path: '/',
   })
 
-  return response.json({ success: true })
+  return response.json({ success: true, token, user: authenticated.user })
 })
 
 router.post('/logout', (_request, response) => {
@@ -123,46 +134,24 @@ router.post('/logout', (_request, response) => {
 
 router.use(requireAuth)
 
-router.get('/dashboard', async (_request, response) => {
-  if (!isDatabaseConnected()) {
-    return response.status(503).json({
-      message: 'Database unavailable. Admin dashboard is unavailable until the database is available.',
-    })
-  }
-
-  const appointments = await Appointment.find().sort({ createdAt: -1 }).lean()
-  const inquiries = await Inquiry.find().sort({ createdAt: -1 }).lean()
-  const record = await ClinicContent.findOne({ key: 'website-content' }).lean()
-
-  response.json({
-    appointments,
-    inquiries,
-    content: record?.content || defaultContent,
-  })
-})
-
-
-router.patch('/appointments/:id', async (request, response) => {
-  const { status } = request.body
-  const { id } = request.params
-
-  if (!['pending', 'confirmed', 'completed'].includes(status)) {
-    return response.status(400).json({ message: 'Invalid appointment status.' })
-  }
-
-  if (!isDatabaseConnected()) {
-    return response.status(503).json({
-      message: 'Appointment status updates are unavailable until the database is available.',
-    })
-  }
-
-  const appointment = await Appointment.findByIdAndUpdate(
-    id,
-    { status },
-    { new: true },
-  ).lean()
-
-  return response.json({ appointment })
-})
+router.get('/dashboard', asyncHandler(getAdminDashboard))
+router.get('/session', asyncHandler(getSession))
+router.get('/catalog', asyncHandler(getCatalog))
+router.get('/settings', asyncHandler(getSettings))
+router.get('/notifications', asyncHandler(getNotifications))
+router.get('/activity-logs', asyncHandler(getActivityLogs))
+router.get('/search', asyncHandler(searchAdminEntities))
+router.get('/patients/:id', requirePermission(PERMISSIONS.managePatients), asyncHandler(getAdminPatientProfile))
+router.get('/invoices', requirePermission(PERMISSIONS.manageInvoices), asyncHandler(getInvoiceList))
+router.post('/patients', requirePermission(PERMISSIONS.managePatients), asyncHandler(createAdminPatient))
+router.post('/bookings', requirePermission(PERMISSIONS.manageAppointments), asyncHandler(createAdminBooking))
+router.post('/invoices', requirePermission(PERMISSIONS.manageBilling), asyncHandler(createInvoiceRecord))
+router.post('/reports/generate', requirePermission(PERMISSIONS.generateReports), asyncHandler(generateAdminReport))
+router.post('/treatments/sync', requirePermission(PERMISSIONS.manageAppointments), asyncHandler(syncTreatments))
+router.patch('/appointments/:id', requirePermission(PERMISSIONS.manageAppointments), asyncHandler(patchAppointmentStatus))
+router.patch('/invoices/:id', requirePermission(PERMISSIONS.manageBilling), asyncHandler(patchInvoice))
+router.patch('/settings', asyncHandler(patchSettings))
+router.patch('/notifications/:id/read', asyncHandler(patchNotificationRead))
+router.post('/reviews/:id/reply', requirePermission(PERMISSIONS.manageReviews), asyncHandler(replyReview))
 
 export default router

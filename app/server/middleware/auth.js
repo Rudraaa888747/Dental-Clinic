@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken'
+import { can } from '../config/rbac.js'
 
-function parseCookie(cookieHeader = '') {
+export function parseCookie(cookieHeader = '') {
   return cookieHeader.split(';').reduce((acc, part) => {
     const [key, value] = part.trim().split('=')
     if (key && value) {
@@ -10,14 +11,18 @@ function parseCookie(cookieHeader = '') {
   }, {})
 }
 
-export function requireAuth(request, response, next) {
+export function extractAuthToken(request) {
   const authorization = request.headers.authorization
   const cookieHeader = request.headers.cookie
   const tokenFromHeader = authorization?.startsWith('Bearer ')
     ? authorization.split(' ')[1]
     : null
   const tokenFromCookie = parseCookie(cookieHeader).clinic_admin_token
-  const token = tokenFromHeader || tokenFromCookie
+  return tokenFromHeader || tokenFromCookie
+}
+
+export function requireAuth(request, response, next) {
+  const token = extractAuthToken(request)
 
   if (!token) {
     return response.status(401).json({ message: 'Unauthorized access.' })
@@ -28,5 +33,19 @@ export function requireAuth(request, response, next) {
     next()
   } catch {
     response.status(401).json({ message: 'Invalid or expired token.' })
+  }
+}
+
+export function requirePermission(permission) {
+  return (request, response, next) => {
+    if (!request.user) {
+      return response.status(401).json({ message: 'Unauthorized access.' })
+    }
+
+    if (!can(request.user.role, permission)) {
+      return response.status(403).json({ message: 'You do not have permission to perform this action.' })
+    }
+
+    next()
   }
 }

@@ -1,45 +1,75 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
+import { MoveHorizontal } from 'lucide-react'
 
 function BeforeAfterCard({ item }) {
-  const [position, setPosition] = useState(52)
+  const [position, setPosition] = useState(50)
+  const [isDragging, setIsDragging] = useState(false)
+  const containerRef = useRef(null)
+
+  const handleMove = (clientX) => {
+    if (containerRef.current) {
+      const { left, width } = containerRef.current.getBoundingClientRect()
+      const x = clientX - left
+      const newPosition = Math.max(0, Math.min(100, (x / width) * 100))
+      setPosition(newPosition)
+    }
+  }
+
+  const handleMouseMove = (e) => {
+    if (isDragging) handleMove(e.clientX)
+  }
+
+  const handleTouchMove = (e) => {
+    if (isDragging) handleMove(e.touches[0].clientX)
+  }
 
   return (
-    <div className="overflow-hidden rounded-[30px] border border-white/70 bg-white shadow-soft">
-      <div className="relative h-[360px] overflow-hidden sm:h-[460px]">
+    <div className="relative overflow-hidden rounded-[32px] glass-panel-dark border-white/5 shadow-2xl p-2 group">
+      <div 
+        ref={containerRef}
+        className="relative h-[400px] sm:h-[500px] rounded-[24px] overflow-hidden cursor-ew-resize"
+        onMouseDown={() => setIsDragging(true)}
+        onMouseUp={() => setIsDragging(false)}
+        onMouseLeave={() => setIsDragging(false)}
+        onMouseMove={handleMouseMove}
+        onTouchStart={() => setIsDragging(true)}
+        onTouchEnd={() => setIsDragging(false)}
+        onTouchMove={handleTouchMove}
+      >
         <img
-          src={item.before}
-          alt={`${item.title} before treatment`}
-          className="h-full w-full object-cover"
+          src={item.after}
+          alt={`${item.title} after treatment`}
+          className="h-full w-full object-cover select-none"
+          draggable="false"
         />
         <div
           className="absolute inset-0"
           style={{ clipPath: `inset(0 ${100 - position}% 0 0)` }}
         >
           <img
-            src={item.after}
-            alt={`${item.title} after treatment`}
-            className="h-full w-full object-cover"
+            src={item.before}
+            alt={`${item.title} before treatment`}
+            className="h-full w-full object-cover select-none"
+            draggable="false"
           />
         </div>
+        
+        {/* Slider Handle */}
         <div
-          className="absolute inset-y-0 w-1 bg-white/90 shadow-lg pointer-events-none"
-          style={{ left: `calc(${position}% - 2px)` }}
-        />
-        <div className="absolute top-5 left-5 rounded-full bg-white/85 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-700">
+          className="absolute inset-y-0 flex items-center justify-center w-0.5 bg-gold/50 shadow-[0_0_10px_rgba(212,175,55,0.5)] pointer-events-none"
+          style={{ left: `${position}%` }}
+        >
+          <div className="absolute w-12 h-12 rounded-full bg-white/10 backdrop-blur-md border border-gold/30 shadow-[0_0_20px_rgba(212,175,55,0.3)] flex items-center justify-center text-gold pointer-events-auto transition-transform group-hover:scale-110">
+            <MoveHorizontal size={20} />
+          </div>
+        </div>
+        
+        <div className="absolute top-6 left-6 rounded-full bg-navy/60 backdrop-blur-md border border-white/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-support-200 pointer-events-none">
           Before
         </div>
-        <div className="absolute top-5 right-5 rounded-full bg-skybrand-500 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-white">
+        <div className="absolute top-6 right-6 rounded-full bg-gold/90 backdrop-blur-md border border-gold/20 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-navy pointer-events-none shadow-[0_0_15px_rgba(212,175,55,0.3)]">
           After
         </div>
-        <input
-          type="range"
-          min="0"
-          max="100"
-          value={position}
-          onChange={(event) => setPosition(Number(event.target.value))}
-          className="absolute inset-x-5 bottom-6 h-2 cursor-pointer appearance-none rounded-full bg-white/90"
-          aria-label={`Compare before and after for ${item.title}`}
-        />
       </div>
     </div>
   )

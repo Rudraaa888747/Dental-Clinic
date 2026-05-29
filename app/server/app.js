@@ -5,6 +5,7 @@ import path from 'path'
 import { fileURLToPath } from 'url'
 import adminRoutes from './routes/adminRoutes.js'
 import publicRoutes from './routes/publicRoutes.js'
+import { ensureOperationalSeedData } from './services/clinicBootstrapService.js'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -15,6 +16,11 @@ dotenv.config({ path: rootEnvPath })
 
 const app = express()
 app.use(express.json())
+
+app.use(async (_request, _response, next) => {
+  await ensureOperationalSeedData()
+  next()
+})
 
 app.use('/api', publicRoutes)
 app.use('/api/admin', adminRoutes)
@@ -39,9 +45,9 @@ app.use((request, response, next) => {
   return response.sendFile(path.join(frontendDistPath, 'index.html'))
 })
 
-app.use((error, _request, response) => {
+app.use((error, _request, response, _next) => {
   console.error(error)
-  response.status(500).json({ message: 'Internal server error.' })
+  response.status(error.status || 500).json({ message: error.message || 'Internal server error.' })
 })
 
 export default app

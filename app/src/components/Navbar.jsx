@@ -1,7 +1,7 @@
-import { motion } from 'framer-motion'
-import { Menu, Phone, X } from 'lucide-react'
-import { useState } from 'react'
-import { Link, NavLink } from 'react-router-dom'
+import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion'
+import { Menu, Phone, X, Sparkles } from 'lucide-react'
+import { useState, useEffect } from 'react'
+import { Link, NavLink, useLocation } from 'react-router-dom'
 
 const MotionNavLink = motion(NavLink)
 
@@ -17,61 +17,103 @@ const links = [
 
 function Navbar({ clinic }) {
   const [open, setOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
+  const location = useLocation()
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50)
+    }
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
+  useEffect(() => {
+    setOpen(false)
+  }, [location.pathname])
+
+  useEffect(() => {
+    if (open) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = ''
+    }
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [open])
 
   return (
-    <header className="sticky top-0 z-50 border-b border-white/70 bg-white/85 backdrop-blur-xl">
-      <div className="page-shell flex h-20 items-center justify-between gap-4">
-        <Link to="/" className="flex items-center gap-3">
-          <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-skybrand-500 text-lg font-bold text-white shadow-md">
-            AS
+    <header 
+      className={`fixed top-0 inset-x-0 transition-all duration-500 ${
+        open ? 'z-[100]' : 'z-50'
+      } ${
+        scrolled ? 'bg-navy/80 backdrop-blur-xl border-b border-white/5 py-2 shadow-2xl' : 'bg-transparent py-4'
+      }`}
+    >
+      <div className="page-shell flex h-16 items-center justify-between gap-4">
+        <Link to="/" className="flex items-center gap-4 group">
+          <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gold/10 border border-gold/20 text-gold shadow-lg transition-transform duration-500 group-hover:rotate-12">
+            <Sparkles size={20} />
           </div>
           <div>
-            <p className="font-display text-lg font-semibold text-ink">
+            <p className="font-display text-xl font-medium tracking-wide text-white group-hover:text-gold transition-colors">
               {clinic.name}
             </p>
-            <p className="text-xs uppercase tracking-[0.22em] text-slate-500">
-              Premium Dentistry
+            <p className="text-[10px] uppercase tracking-[0.3em] text-support-300">
+              Cosmetic Dentistry
             </p>
           </div>
         </Link>
 
-        <nav className="hidden items-center gap-7 lg:flex">
+        <nav className="hidden items-center gap-8 xl:flex">
           {links.map(([label, href]) => (
             <MotionNavLink
               key={href}
               to={href}
-              whileHover={{ y: -2 }}
-              whileTap={{ y: 0 }}
               className={({ isActive }) =>
-                `text-sm font-medium transition ${
-                  isActive ? 'text-skybrand-700' : 'text-slate-600 hover:text-skybrand-600'
+                `text-sm tracking-wide transition-all duration-300 font-light relative py-2 ${
+                  isActive ? 'text-gold' : 'text-support-200 hover:text-white'
                 }`
               }
             >
-              {label}
+              {({ isActive }) => (
+                <>
+                  {label}
+                  {isActive && (
+                    <motion.div 
+                      layoutId="nav-indicator"
+                      className="absolute bottom-0 left-0 right-0 h-[1px] bg-gold"
+                      initial={false}
+                      transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                    />
+                  )}
+                </>
+              )}
             </MotionNavLink>
           ))}
         </nav>
 
-        <div className="hidden items-center gap-3 lg:flex">
+        <div className="hidden items-center gap-5 lg:flex">
           <a
             href={`tel:${clinic.phone.replace(/\s+/g, '')}`}
-            className="inline-flex items-center gap-2 rounded-full border border-skybrand-200 px-4 py-2 text-sm font-semibold text-skybrand-700"
+            className="inline-flex items-center gap-2 text-sm font-light text-support-200 hover:text-white transition-colors"
           >
-            <Phone size={16} />
+            <Phone size={14} className="text-gold" />
             {clinic.phone}
           </a>
+          <div className="w-[1px] h-8 bg-white/10"></div>
           <Link
             to="/appointment"
-            className="rounded-full bg-ink px-5 py-3 text-sm font-semibold text-white shadow-card transition hover:bg-skybrand-700"
+            className="rounded-full bg-white text-navy px-6 py-2.5 text-sm font-medium transition hover:bg-gold hover:text-navy shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-gold uppercase tracking-wider"
           >
-            Book Appointment
+            Consultation
           </Link>
         </div>
 
         <button
           type="button"
-          className="inline-flex h-11 w-11 items-center justify-center rounded-2xl border border-slate-200 text-slate-700 lg:hidden"
+          className="inline-flex h-12 w-12 items-center justify-center rounded-2xl border border-white/10 text-white lg:hidden bg-white/5 backdrop-blur-md"
           onClick={() => setOpen((value) => !value)}
           aria-label="Toggle menu"
         >
@@ -79,33 +121,85 @@ function Navbar({ clinic }) {
         </button>
       </div>
 
-      {open ? (
-        <div className="border-t border-slate-100 bg-white lg:hidden">
-          <div className="page-shell flex flex-col gap-4 py-5">
-            {links.map(([label, href]) => (
-              <NavLink
-                key={href}
-                to={href}
+      {/* Premium Mobile Menu Slide-over */}
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            initial={{ y: '-100%' }}
+            animate={{ y: 0 }}
+            exit={{ y: '-100%' }}
+            transition={{ type: 'spring', damping: 28, stiffness: 250 }}
+            className="fixed inset-0 z-[9999] w-full h-[100dvh] bg-[#020817] flex flex-col lg:hidden overflow-hidden"
+            data-lenis-prevent="true"
+          >
+            {/* Header */}
+            <div className="flex items-center justify-between p-6 border-b border-white/5 bg-[#0F172A]">
+              <div className="flex items-center gap-3">
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gold/10 text-gold border border-gold/20 shadow-lg">
+                  <Sparkles size={18} />
+                </div>
+                <div>
+                  <span className="font-display font-medium text-white tracking-wide">{clinic.name}</span>
+                  <p className="text-[9px] uppercase tracking-widest text-gold/70 font-semibold">Menu</p>
+                </div>
+              </div>
+              <button
                 onClick={() => setOpen(false)}
-                className={({ isActive }) =>
-                  `text-sm font-semibold ${
-                    isActive ? 'text-skybrand-700' : 'text-slate-700'
-                  }`
-                }
+                className="p-3 bg-white/5 rounded-full text-support-300 hover:text-white hover:bg-white/10 transition-colors active:scale-95"
               >
-                {label}
-              </NavLink>
-            ))}
-            <Link
-              to="/appointment"
-              onClick={() => setOpen(false)}
-              className="rounded-full bg-ink px-5 py-3 text-center text-sm font-semibold text-white"
-            >
-              Book Appointment
-            </Link>
-          </div>
-        </div>
-      ) : null}
+                <X size={20} />
+              </button>
+            </div>
+
+            {/* Navigation Links */}
+            <div className="flex-1 overflow-y-auto px-6 py-8 flex flex-col gap-4 custom-scrollbar" data-lenis-prevent="true">
+              {links.map(([label, href], i) => (
+                <motion.div
+                  key={href}
+                  initial={{ opacity: 0, y: -20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.1 + (i * 0.05), duration: 0.3 }}
+                >
+                  <NavLink
+                    to={href}
+                    onClick={() => setOpen(false)}
+                    className={({ isActive }) =>
+                      `flex items-center justify-between px-5 py-4 rounded-2xl transition-all ${
+                        isActive
+                          ? 'bg-gold/10 text-gold border border-gold/20 shadow-inner'
+                          : 'bg-white/[0.02] text-support-200 hover:bg-white/5 hover:text-white border border-transparent'
+                      }`
+                    }
+                  >
+                    <span className="font-display font-medium text-xl tracking-wide">{label}</span>
+                  </NavLink>
+                </motion.div>
+              ))}
+            </div>
+
+            {/* Footer Actions */}
+            <div className="p-6 border-t border-white/5 bg-[#0F172A] space-y-4 pb-safe">
+              <Link
+                to="/appointment"
+                onClick={() => setOpen(false)}
+                className="flex items-center justify-center w-full rounded-2xl bg-gold px-4 py-4 text-sm font-bold text-navy uppercase tracking-widest shadow-[0_0_20px_rgba(212,175,55,0.3)] hover:bg-gold-light transition-all active:scale-[0.98]"
+              >
+                Book Consultation
+              </Link>
+              <div className="grid grid-cols-2 gap-4">
+                <a href={`tel:${clinic.phone.replace(/\s+/g, '')}`} className="flex items-center justify-center gap-2 bg-white/5 hover:bg-white/10 transition-colors rounded-xl p-3.5 border border-white/10 text-white shadow-sm active:scale-95">
+                  <Phone size={16} className="text-support-300" />
+                  <span className="text-xs font-semibold tracking-wide uppercase">Call</span>
+                </a>
+                <a href={`https://wa.me/91${clinic.phone.replace(/\D/g, '').slice(-10)}`} target="_blank" rel="noreferrer" className="flex items-center justify-center gap-2 bg-emerald-500/10 hover:bg-emerald-500/20 transition-colors rounded-xl p-3.5 border border-emerald-500/20 text-emerald-400 shadow-sm active:scale-95">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+                  <span className="text-xs font-semibold tracking-wide uppercase">WhatsApp</span>
+                </a>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   )
 }

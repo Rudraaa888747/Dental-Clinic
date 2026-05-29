@@ -1,5 +1,10 @@
+import http from 'http'
+import { Server } from 'socket.io'
 import { connectDB } from './config/db.js'
 import app from './app.js'
+import { extractAuthToken } from './middleware/auth.js'
+import { registerSocketServer } from './services/socketService.js'
+import jwt from 'jsonwebtoken'
 
 const port = process.env.PORT || 5000
 
@@ -19,7 +24,47 @@ connectDB().then((connected) => {
     process.exit(1)
   }
 
-  app.listen(port, () => {
+  const server = http.createServer(app)
+  const io = new Server(server, {
+    cors: {
+      origin: true,
+      credentials: true,
+    },
+  })
+
+  io.use((socket, next) => {
+    try {
+      const fakeRequest = {
+        headers: {
+          authorization: socket.handshake.auth?.token
+            ? `Bearer ${socket.handshake.auth.token}`
+            : undefined,
+          cookie: socket.handshake.headers.cookie,
+        },
+      }
+      const token = extractAuthToken(fakeRequest)
+
+      if (!token) {
+        return next(new Error('Unauthorized socket connection.'))
+      }
+
+      socket.data.user = jwt.verify(token, process.env.JWT_SECRET)
+      return next()
+    } catch {
+      return next(new Error('Invalid socket token.'))
+    }
+  })
+
+  io.on('connection', (socket) => {
+    const role = socket.data.user?.role
+    if (role) {
+      socket.join(`role:${role}`)
+    }
+  })
+
+  registerSocketServer(io)
+
+  server.listen(port, () => {
     console.log(`API running on port ${port}`)
   })
 })

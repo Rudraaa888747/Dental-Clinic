@@ -4,9 +4,9 @@ function StatusBanner({ mode }) {
   }
 
   return (
-    <div className="border-b border-amber-200 bg-amber-50">
-      <div className="page-shell py-3 text-center text-xs font-medium uppercase tracking-[0.2em] text-amber-700 sm:text-sm">
-        Demo Mode Active: live server unavailable, local fallback is being used
+    <div className="border-b border-gold/20 bg-navy">
+      <div className="page-shell py-2.5 text-center text-[10px] font-semibold uppercase tracking-[0.25em] text-gold sm:text-xs">
+        Demo Mode Active: Live server unavailable, local fallback is being used.
       </div>
     </div>
   )

@@ -17,7 +17,7 @@ function ContactPage({ content }) {
       await api.submitInquiry(form)
       setStatus({
         type: 'success',
-        message: 'Your inquiry has been sent successfully. Our team will contact you shortly.',
+        message: 'Your inquiry has been sent successfully. Our concierge will contact you shortly.',
       })
       setForm({ name: '', phone: '', message: '' })
     } catch (error) {
@@ -28,56 +28,61 @@ function ContactPage({ content }) {
   }
 
   return (
-    <AnimatedSection className="section-space">
-      <div className="page-shell grid gap-8 lg:grid-cols-[0.88fr_1.12fr]">
+    <AnimatedSection className="section-space min-h-screen bg-navy pt-32 pb-24 relative overflow-hidden">
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-gold/5 blur-[120px] rounded-full pointer-events-none"></div>
+      
+      <div className="page-shell relative z-10 grid gap-16 lg:grid-cols-[0.88fr_1.12fr]">
         <div>
           <SectionHeading
             eyebrow="Contact Us"
-            title="Trustworthy contact details with high-clarity layout."
-            description="This page keeps the path to visit, call, or message extremely obvious across devices."
+            title="Let us arrange your visit."
+            description="Our concierge team is available to assist you with scheduling, treatment inquiries, and comprehensive care planning."
           />
-          <div className="mt-8 space-y-5 rounded-[28px] bg-white p-6 shadow-card">
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-500">
-                Address
+          <div className="mt-12 space-y-8 glass-panel-dark rounded-[32px] p-8 shadow-2xl border-white/5 relative">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-gold/5 blur-[40px] rounded-full"></div>
+            
+            <div className="relative z-10">
+              <p className="text-xs font-semibold uppercase tracking-widest text-support-300">
+                Clinic Location
               </p>
-              <p className="mt-2 text-base text-slate-700">{content.clinic.address}</p>
+              <p className="mt-3 text-lg text-white font-light">{content.clinic.address}</p>
             </div>
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-500">
-                Opening Hours
+            <div className="relative z-10">
+              <p className="text-xs font-semibold uppercase tracking-widest text-support-300">
+                Operating Hours
               </p>
               {content.clinic.hours.map((item) => (
-                <p key={item} className="mt-2 text-base text-slate-700">
+                <p key={item} className="mt-3 text-lg text-white font-light">
                   {item}
                 </p>
               ))}
             </div>
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-500">
-                Call
+            <div className="relative z-10">
+              <p className="text-xs font-semibold uppercase tracking-widest text-support-300">
+                Direct Line
               </p>
-              <p className="mt-2 text-base text-slate-700">{content.clinic.phone}</p>
+              <p className="mt-3 text-lg text-gold font-light">{content.clinic.phone}</p>
             </div>
           </div>
         </div>
-        <div className="grid gap-6">
-          <div className="overflow-hidden rounded-[30px] bg-white p-3 shadow-card">
+        <div className="grid gap-8">
+          <div className="overflow-hidden rounded-[32px] glass-panel-dark p-2 shadow-2xl border-white/5 relative group">
+             <div className="absolute inset-0 bg-navy/20 z-10 pointer-events-none transition-opacity duration-500 group-hover:opacity-0"></div>
             <iframe
               title="Clinic location"
               src={content.clinic.googleMapsEmbed}
-              className="h-[380px] w-full rounded-[24px] border-0"
+              className="h-[380px] w-full rounded-[28px] border-0 grayscale-[50%] contrast-[1.2] invert-[90%] hue-rotate-[180deg]"
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
             />
           </div>
-          <div className="rounded-[30px] bg-white p-6 shadow-card">
-            <h3 className="font-display text-2xl font-semibold text-ink">
-              Quick Contact
+          <div className="rounded-[40px] glass-panel-dark p-8 sm:p-10 shadow-2xl border-white/5 relative">
+            <h3 className="font-display text-2xl font-medium text-white">
+              Send an Inquiry
             </h3>
-            <form onSubmit={handleSubmit} className="mt-6 grid gap-4 sm:grid-cols-2">
+            <form onSubmit={handleSubmit} className="mt-8 grid gap-6 sm:grid-cols-2">
               <label htmlFor="contact-name">
-                <span className="mb-2 block text-sm font-semibold text-slate-700">
+                <span className="mb-2 block text-xs font-semibold uppercase tracking-widest text-support-300">
                   Full Name
                 </span>
                 <input
@@ -88,33 +93,35 @@ function ContactPage({ content }) {
                   onChange={(event) =>
                     setForm((value) => ({ ...value, name: event.target.value }))
                   }
-                  className="w-full rounded-2xl border-skybrand-100 px-4 py-3 focus:border-skybrand-400 focus:ring-skybrand-200"
+                  className="w-full rounded-2xl border border-white/10 bg-navy-900/50 px-5 py-4 text-white shadow-inner focus:border-gold focus:ring-1 focus:ring-gold transition-colors placeholder:text-support-300/50"
                   placeholder="Your name"
                   autoComplete="name"
                 />
               </label>
               <label htmlFor="contact-phone">
-                <span className="mb-2 block text-sm font-semibold text-slate-700">
-                  Phone Number
+                <span className="mb-2 block text-xs font-semibold uppercase tracking-widest text-support-300">
+                  Contact Number
                 </span>
                 <input
                   id="contact-phone"
                   name="phone"
                   type="tel"
                   required
-                  inputMode="tel"
-                  pattern="\+?[0-9\s-]{7,}"
+                  inputMode="numeric"
+                  pattern="[0-9]{10}"
+                  maxLength="10"
                   value={form.phone}
-                  onChange={(event) =>
-                    setForm((value) => ({ ...value, phone: event.target.value }))
-                  }
-                  className="w-full rounded-2xl border-skybrand-100 px-4 py-3 focus:border-skybrand-400 focus:ring-skybrand-200"
-                  placeholder="+91 98765 43210"
+                  onChange={(event) => {
+                    const val = event.target.value.replace(/\D/g, '').slice(0, 10);
+                    setForm((value) => ({ ...value, phone: val }))
+                  }}
+                  className="w-full rounded-2xl border border-white/10 bg-navy-900/50 px-5 py-4 text-white shadow-inner focus:border-gold focus:ring-1 focus:ring-gold transition-colors placeholder:text-support-300/50"
+                  placeholder="10-digit phone number"
                   autoComplete="tel"
                 />
               </label>
               <label htmlFor="contact-message" className="sm:col-span-2">
-                <span className="mb-2 block text-sm font-semibold text-slate-700">
+                <span className="mb-2 block text-xs font-semibold uppercase tracking-widest text-support-300">
                   Message
                 </span>
                 <textarea
@@ -125,26 +132,26 @@ function ContactPage({ content }) {
                   onChange={(event) =>
                     setForm((value) => ({ ...value, message: event.target.value }))
                   }
-                  className="h-full w-full rounded-2xl border-skybrand-100 px-4 py-3 focus:border-skybrand-400 focus:ring-skybrand-200"
-                  placeholder="Tell us how we can help"
+                  className="h-full w-full rounded-2xl border border-white/10 bg-navy-900/50 px-5 py-4 text-white shadow-inner focus:border-gold focus:ring-1 focus:ring-gold transition-colors placeholder:text-support-300/50"
+                  placeholder="Tell us how we can assist you..."
                   rows="5"
                 />
               </label>
               <button
                 type="submit"
                 disabled={loading}
-                className="sm:col-span-2 rounded-full bg-ink px-6 py-4 text-sm font-semibold text-white"
+                className="sm:col-span-2 mt-4 rounded-full bg-gold px-8 py-5 text-sm font-semibold text-navy uppercase tracking-widest shadow-gold transition hover:bg-gold-light hover:scale-[1.02] disabled:opacity-70 disabled:hover:scale-100"
               >
-                {loading ? 'Sending...' : 'Send Inquiry'}
+                {loading ? 'Sending...' : 'Submit Inquiry'}
               </button>
               {status.message ? (
                 <p
                   role="status"
                   aria-live="polite"
-                  className={`sm:col-span-2 text-sm ${
+                  className={`sm:col-span-2 mt-4 text-sm text-center p-4 rounded-xl border ${
                     status.type === 'success'
-                      ? 'text-emerald-600'
-                      : 'text-rose-600'
+                      ? 'border-emerald-500/30 bg-emerald-500/10 text-emerald-400'
+                      : 'border-rose-500/30 bg-rose-500/10 text-rose-400'
                   }`}
                 >
                   {status.message}

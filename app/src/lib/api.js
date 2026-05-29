@@ -15,12 +15,17 @@ function createNetworkError() {
 
 async function request(path, options = {}) {
   const { controller, timeout } = withTimeout(options.timeoutMs)
+  const storedToken =
+    typeof window !== 'undefined'
+      ? window.localStorage.getItem('adminToken') || window.sessionStorage.getItem('adminToken')
+      : ''
 
   try {
     const response = await fetch(`${API_BASE}${path}`, {
       credentials: options.credentials || 'same-origin',
       headers: {
         'Content-Type': 'application/json',
+        ...(storedToken ? { Authorization: `Bearer ${storedToken}` } : {}),
         ...(options.headers || {}),
       },
       ...options,
@@ -82,15 +87,97 @@ export const api = {
       body: JSON.stringify(payload),
     })
   },
+  getAdminSession: async () => {
+    return await request('/admin/session')
+  },
   adminLogout: async () => {
     await request('/admin/logout', {
       method: 'POST',
     })
+    if (typeof window !== 'undefined') {
+      window.localStorage.removeItem('adminToken')
+      window.sessionStorage.removeItem('adminToken')
+      window.localStorage.removeItem('adminRecentSearches')
+    }
     return { success: true }
   },
   getAdminDashboard: async () => {
     const response = await request('/admin/dashboard')
     return { ...response, mode: 'live' }
+  },
+  getAdminCatalog: async () => {
+    return await request('/admin/catalog')
+  },
+  createPatient: async (payload) => {
+    return await request('/admin/patients', {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    })
+  },
+  getPatientProfile: async (id) => {
+    return await request(`/admin/patients/${id}`)
+  },
+  createAdminBooking: async (payload) => {
+    return await request('/admin/bookings', {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    })
+  },
+  listInvoices: async () => {
+    return await request('/admin/invoices')
+  },
+  createInvoice: async (payload) => {
+    return await request('/admin/invoices', {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    })
+  },
+  updateInvoice: async (id, payload) => {
+    return await request(`/admin/invoices/${id}`, {
+      method: 'PATCH',
+      body: JSON.stringify(payload),
+    })
+  },
+  replyToReview: async (id, reply) => {
+    return await request(`/admin/reviews/${id}/reply`, {
+      method: 'POST',
+      body: JSON.stringify({ reply }),
+    })
+  },
+  generateReport: async (type) => {
+    return await request('/admin/reports/generate', {
+      method: 'POST',
+      body: JSON.stringify({ type }),
+    })
+  },
+  getNotifications: async () => {
+    return await request('/admin/notifications')
+  },
+  markNotificationRead: async (id) => {
+    return await request(`/admin/notifications/${id}/read`, {
+      method: 'PATCH',
+    })
+  },
+  getActivityLogs: async (query = '') => {
+    const search = query ? `?q=${encodeURIComponent(query)}` : ''
+    return await request(`/admin/activity-logs${search}`)
+  },
+  searchAdmin: async (query) => {
+    return await request(`/admin/search?q=${encodeURIComponent(query)}`)
+  },
+  getSettings: async () => {
+    return await request('/admin/settings')
+  },
+  updateSettings: async (payload) => {
+    return await request('/admin/settings', {
+      method: 'PATCH',
+      body: JSON.stringify(payload),
+    })
+  },
+  syncTreatments: async () => {
+    return await request('/admin/treatments/sync', {
+      method: 'POST',
+    })
   },
   updateAppointmentStatus: async (id, status) => {
     return await request(`/admin/appointments/${id}`, {

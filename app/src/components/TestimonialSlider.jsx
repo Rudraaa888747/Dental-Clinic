@@ -35,17 +35,17 @@ function TestimonialSlider({ testimonials }) {
         coverflowEffect={{
           rotate: 0,
           stretch: 0,
-          depth: 250,
-          modifier: 2,
+          depth: 200,
+          modifier: 2.5,
           slideShadows: false,
         }}
         autoplay={{
           delay: 1000,
           disableOnInteraction: false,
         }}
-        pagination={{ clickable: true }}
+        pagination={{ clickable: true, dynamicBullets: true }}
         modules={[EffectCoverflow, Autoplay, Pagination]}
-        className="pb-14 pt-6"
+        className="pb-20 pt-10"
       >
         {displayTestimonials.map((item) => (
           <SwiperSlide key={item.id} className="!flex justify-center">
@@ -56,53 +56,54 @@ function TestimonialSlider({ testimonials }) {
                 animate={{
                   scale: isActive ? 1.05 : 0.9,
                   opacity: isActive ? 1 : 0.5,
-                  y: isActive ? -10 : 0,
+                  y: isActive ? -15 : 0,
                 }}
-                transition={{ duration: 0.4 }}
+                transition={{ duration: 0.5, ease: 'easeOut' }}
                 className={`
-                  relative w-[260px] sm:w-[300px] h-[330px]
-                  rounded-[26px] p-6 flex flex-col
-                  backdrop-blur-xl bg-white/90
-                  border border-skybrand-100
-                  shadow-xl transition-all
+                  relative w-[300px] sm:w-[340px] h-[360px]
+                  rounded-[32px] p-8 flex flex-col
+                  glass-panel-dark border-white/5
+                  shadow-2xl transition-all
+                  ${isActive ? 'ring-1 ring-gold/20' : ''}
                 `}
               >
+                <div className="absolute -inset-[1px] bg-gradient-to-b from-white/10 to-transparent rounded-[32px] pointer-events-none z-0"></div>
                 {/* Quote Icon */}
-                <div className="absolute top-4 right-4 text-skybrand-100">
-                  <Quote size={34} fill="currentColor" />
+                <div className="absolute top-6 right-6 text-gold/20 z-10">
+                  <Quote size={40} fill="currentColor" />
                 </div>
 
                 {/* Stars */}
-                <div className="flex gap-1 text-amber-400 mb-4">
+                <div className="flex gap-1.5 text-gold mb-6 z-10 relative mt-2">
                   {Array.from({ length: item.rating }).map((_, i) => (
-                    <Star key={i} size={15} fill="currentColor" />
+                    <Star key={i} size={16} fill="currentColor" strokeWidth={0} />
                   ))}
                 </div>
 
                 {/* Review */}
-                <p className="text-[14px] leading-relaxed text-slate-600 flex-grow font-medium">
-                  “{item.quote}”
+                <p className="text-[15px] leading-loose text-support-200 flex-grow font-light z-10 relative italic">
+                  "{item.quote}"
                 </p>
 
                 {/* User */}
-                <div className="mt-5 flex items-center gap-3 pt-4 border-t border-slate-100">
+                <div className="mt-6 flex items-center gap-4 pt-6 border-t border-white/5 z-10 relative">
                   {item.image ? (
                     <img
                       src={item.image}
                       alt={item.name}
-                      className="w-11 h-11 rounded-full object-cover ring-2 ring-skybrand-100"
+                      className="w-12 h-12 rounded-full object-cover ring-2 ring-gold/20"
                     />
                   ) : (
-                    <div className="w-11 h-11 rounded-full bg-skybrand-100 flex items-center justify-center font-bold text-skybrand-700">
+                    <div className="w-12 h-12 rounded-full bg-gold/10 flex items-center justify-center font-display font-medium text-gold ring-1 ring-gold/20">
                       {item.name.charAt(0)}
                     </div>
                   )}
 
                   <div>
-                    <p className="font-semibold text-[15px] text-ink">
+                    <p className="font-display font-medium text-[16px] text-white">
                       {item.name}
                     </p>
-                    <p className="text-[12px] text-skybrand-600">
+                    <p className="text-[11px] uppercase tracking-widest text-gold mt-1">
                       {item.role}
                     </p>
                   </div>
@@ -112,6 +113,10 @@ function TestimonialSlider({ testimonials }) {
           </SwiperSlide>
         ))}
       </Swiper>
+      <style dangerouslySetInnerHTML={{__html: `
+        .swiper-pagination-bullet { background: rgba(255,255,255,0.3); }
+        .swiper-pagination-bullet-active { background: #D4AF37; }
+      `}} />
     </motion.div>
   )
 }
