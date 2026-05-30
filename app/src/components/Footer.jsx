@@ -63,11 +63,22 @@ function Footer({ clinic }) {
         </div>
       </div>
       
-      <div className="page-shell relative z-10 mt-16 pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4 text-xs font-light text-support-300">
-         <p>© {new Date().getFullYear()} {clinic.name}. All rights reserved.</p>
-         <div className="flex gap-6">
-            <Link to="/admin" className="hover:text-white transition-colors">Admin Access</Link>
-            <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
+      <div className="page-shell relative z-10 mt-16 pt-8 border-t border-white/5 flex flex-col gap-8 text-xs font-light text-support-300">
+         <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+           <p>© {new Date().getFullYear()} {clinic.name}. All rights reserved.</p>
+           <div className="flex gap-6">
+              <Link to="/admin" className="hover:text-white transition-colors">Admin Access</Link>
+              <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
+           </div>
+         </div>
+         <div className="flex justify-center items-center mb-8 lg:mb-0">
+           <div className="px-4 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-sm shadow-xl hover:bg-white/10 hover:border-gold/30 transition-all duration-300 cursor-default">
+             <p className="flex items-center gap-2 uppercase tracking-[0.2em] text-[10px] text-support-200">
+               <Sparkles size={12} className="text-gold" />
+               Made by <span className="text-white font-medium tracking-widest">Rudra Chokshi</span>
+               <Sparkles size={12} className="text-gold" />
+             </p>
+           </div>
          </div>
       </div>
     </footer>
