@@ -64,7 +64,7 @@ connectDB().then((connected) => {
 
   registerSocketServer(io)
 
-  server.listen(port, () => {
+  server.listen(port, '0.0.0.0', () => {
     console.log(`API running on port ${port}`)
   })
 })
