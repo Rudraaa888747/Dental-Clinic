@@ -1,3 +1,4 @@
+import cors from 'cors'
 import dotenv from 'dotenv'
 import express from 'express'
 import fs from 'fs'
@@ -15,6 +16,7 @@ const frontendDistPath = path.resolve(__dirname, '../dist')
 dotenv.config({ path: rootEnvPath })
 
 const app = express()
+app.use(cors({ origin: true, credentials: true }))
 app.use(express.json())
 
 app.use(async (_request, _response, next) => {
