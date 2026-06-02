@@ -1,6 +1,6 @@
 import AnimatedSection from '../components/AnimatedSection'
 import SectionHeading from '../components/SectionHeading'
-import { Sparkles, ShieldCheck } from 'lucide-react'
+import { ShieldCheck } from 'lucide-react'
 
 function AboutPage({ content }) {
   return (

@@ -6,22 +6,14 @@ import BeforeAfterCard from '../components/BeforeAfterCard'
 import SectionHeading from '../components/SectionHeading'
 import ServiceCard from '../components/ServiceCard'
 import TestimonialSlider from '../components/TestimonialSlider'
-import TrustBar from '../components/TrustBar'
 
 function HomePage({ content }) {
   return (
     <>
       <section className="relative overflow-hidden min-h-[92vh] flex items-center bg-[#020817] pt-24 lg:pt-32 pb-16 lg:pb-0">
-        {/* Cinematic Background Elements */}
         <div className="absolute inset-0 bg-hero-glow opacity-90" />
         <div className="absolute inset-0 bg-gradient-to-b from-[#020817]/40 via-transparent to-[#020817]" />
-        
-        {/* Layered Lighting */}
-        <div className="absolute top-0 right-0 w-full h-[800px] bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-gold/15 via-[#020817]/5 to-transparent blur-[80px] pointer-events-none" />
-        <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-support-300/5 rounded-full blur-[120px] pointer-events-none" />
-
-        {/* Ambient Particles / Dust (Simulated via SVG texture) */}
-        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-[0.03] mix-blend-screen pointer-events-none" />
+        <div className="absolute top-0 right-0 w-1/2 h-[600px] bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-gold/15 via-transparent to-transparent blur-[80px] pointer-events-none" />
         
         <div className="page-shell relative z-10 grid gap-12 lg:gap-20 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
           <motion.div
@@ -110,7 +102,7 @@ function HomePage({ content }) {
                   height="1080"
                   loading="eager"
                   fetchpriority="high"
-                  className="w-full h-full object-cover scale-[1.02] hover:scale-105 transition-transform duration-[20s] ease-linear"
+                  className="w-full h-full object-cover scale-[1.02] hover:scale-105 transition-transform duration-[12s] ease-out will-change-transform"
                 />
               </div>
               
@@ -236,7 +228,7 @@ function HomePage({ content }) {
 
       <AnimatedSection className="py-32 relative overflow-hidden">
         <div className="absolute inset-0 bg-gold"></div>
-        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-10 mix-blend-overlay"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-navy/10 via-transparent to-transparent opacity-10 mix-blend-overlay"></div>
         <div className="page-shell relative z-10 text-center">
            <h2 className="font-display text-4xl sm:text-5xl lg:text-6xl font-light text-navy max-w-3xl mx-auto leading-tight">
              Ready to experience <br/><span className="font-medium">true dental luxury?</span>

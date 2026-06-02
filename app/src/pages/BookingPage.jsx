@@ -24,7 +24,7 @@ function BookingPage({ content }) {
       } at ${form.time || 'selected time'} for ${form.service || 'dental treatment'}.`,
     )
     return `https://wa.me/${content.clinic.whatsapp}?text=${text}`
-  }, [content.clinic.whatsapp, form])
+  }, [content.clinic.whatsapp, form.name, form.date, form.time, form.service])
 
   const minDate = new Date().toISOString().split('T')[0]
 

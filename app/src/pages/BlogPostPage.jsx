@@ -8,12 +8,7 @@ function BlogPostPage({ content }) {
 
   useEffect(() => {
     if (!post) return
-
     document.title = `${post.title} | ${content.clinic.name}`
-    const metaDescription = document.querySelector('meta[name="description"]')
-    if (metaDescription) {
-      metaDescription.setAttribute('content', post.excerpt)
-    }
   }, [content.clinic.name, post])
 
   if (!post) {

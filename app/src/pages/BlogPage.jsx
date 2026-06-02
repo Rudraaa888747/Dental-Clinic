@@ -6,13 +6,6 @@ import SectionHeading from '../components/SectionHeading'
 function BlogPage({ content }) {
   useEffect(() => {
     document.title = `Journal | ${content.clinic.name}`
-    const metaDescription = document.querySelector('meta[name="description"]')
-    if (metaDescription) {
-      metaDescription.setAttribute(
-        'content',
-        'Explore dental health insights, preventive tips, and clinic updates from Azure Smiles Dental Clinic.',
-      )
-    }
   }, [content.clinic.name])
 
   return (

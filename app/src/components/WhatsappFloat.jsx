@@ -1,8 +1,5 @@
 import { MessageCircleMore } from 'lucide-react'
 
-import { Calendar } from 'lucide-react'
-import { Link } from 'react-router-dom'
-
 function WhatsappFloat({ clinic }) {
   const message = encodeURIComponent(
     `Hello ${clinic.name}, I would like to arrange a private consultation.`,

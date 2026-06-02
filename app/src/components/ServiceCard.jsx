@@ -12,7 +12,6 @@ import {
   Activity,
   ArrowUpRight,
   Clock,
-  Heart,
   Calendar,
   Cpu
 } from 'lucide-react'

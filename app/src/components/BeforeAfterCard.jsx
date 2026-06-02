@@ -1,27 +1,30 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useCallback } from 'react'
 import { MoveHorizontal } from 'lucide-react'
 
 function BeforeAfterCard({ item }) {
   const [position, setPosition] = useState(50)
   const [isDragging, setIsDragging] = useState(false)
   const containerRef = useRef(null)
+  const rafRef = useRef(null)
 
-  const handleMove = (clientX) => {
-    if (containerRef.current) {
-      const { left, width } = containerRef.current.getBoundingClientRect()
-      const x = clientX - left
-      const newPosition = Math.max(0, Math.min(100, (x / width) * 100))
-      setPosition(newPosition)
-    }
-  }
+  const handleMove = useCallback((clientX) => {
+    if (rafRef.current) return
+    rafRef.current = requestAnimationFrame(() => {
+      rafRef.current = null
+      if (!containerRef.current) return
+      const rect = containerRef.current.getBoundingClientRect()
+      const x = clientX - rect.left
+      setPosition(Math.max(0, Math.min(100, (x / rect.width) * 100)))
+    })
+  }, [])
 
-  const handleMouseMove = (e) => {
+  const handleMouseMove = useCallback((e) => {
     if (isDragging) handleMove(e.clientX)
-  }
+  }, [isDragging, handleMove])
 
-  const handleTouchMove = (e) => {
+  const handleTouchMove = useCallback((e) => {
     if (isDragging) handleMove(e.touches[0].clientX)
-  }
+  }, [isDragging, handleMove])
 
   return (
     <div className="relative overflow-hidden rounded-[32px] glass-panel-dark border-white/5 shadow-2xl p-2 group">

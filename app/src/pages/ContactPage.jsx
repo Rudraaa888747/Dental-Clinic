@@ -71,7 +71,7 @@ function ContactPage({ content }) {
             <iframe
               title="Clinic location"
               src={content.clinic.googleMapsEmbed}
-              className="h-[380px] w-full rounded-[28px] border-0 grayscale-[50%] contrast-[1.2] invert-[90%] hue-rotate-[180deg]"
+              className="h-[380px] w-full rounded-[28px] border-0 grayscale-[30%] hue-rotate-[180deg]"
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
             />
