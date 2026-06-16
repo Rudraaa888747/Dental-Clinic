@@ -515,7 +515,7 @@ function AdminDashboardPage() {
 
             {/* Notifications */}
             <div className="relative">
-              <button onClick={() => setIsNotificationsOpen((v) => !v)} className="relative p-2.5 rounded-xl text-white/40 hover:text-white hover:bg-white/5 transition-colors">
+              <button id="notification-bell-btn" onClick={() => setIsNotificationsOpen((v) => !v)} className="relative p-2.5 rounded-xl text-white/40 hover:text-white hover:bg-white/5 transition-colors">
                 <Bell size={17} />
                 {dashboard.unreadNotifications ? (
                   <span className="absolute top-1.5 right-1.5 min-w-4 h-4 px-1 rounded-full bg-amber-400 text-[#060C18] text-[9px] font-bold flex items-center justify-center">

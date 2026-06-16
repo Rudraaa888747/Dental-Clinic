@@ -26,6 +26,7 @@ export function NotificationCenter({ isOpen, onClose, notifications = [], unread
     if (!isOpen) return undefined
 
     function handleClick(event) {
+      if (event.target.closest('#notification-bell-btn')) return
       if (panelRef.current && !panelRef.current.contains(event.target)) {
         onClose()
       }
@@ -44,7 +45,7 @@ export function NotificationCenter({ isOpen, onClose, notifications = [], unread
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: -10, scale: 0.98 }}
           transition={{ duration: 0.18 }}
-          className="absolute right-0 top-14 z-50 w-[calc(100vw-32px)] sm:w-[420px] max-w-[420px] rounded-[28px] border border-white/10 bg-[#0F172A]/95 backdrop-blur-2xl shadow-[0_30px_80px_rgba(2,8,23,0.65)] overflow-hidden"
+          className="fixed left-4 right-4 top-20 sm:absolute sm:left-auto sm:-right-2 sm:top-14 z-50 w-[calc(100vw-32px)] sm:w-[420px] max-w-[420px] rounded-[28px] border border-white/10 bg-[#0F172A]/95 backdrop-blur-2xl shadow-[0_30px_80px_rgba(2,8,23,0.65)] overflow-hidden"
         >
           <div className="p-5 border-b border-white/5 flex items-center justify-between">
             <div>
@@ -63,6 +64,7 @@ export function NotificationCenter({ isOpen, onClose, notifications = [], unread
                     await onRead(notification._id)
                   }
                   showToast(notification.body)
+                  onClose()
                 }}
                 className={`w-full rounded-2xl border p-4 text-left transition-colors ${
                   notification.read
