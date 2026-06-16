@@ -33,26 +33,15 @@ connectDB().then((connected) => {
   })
 
   io.use((socket, next) => {
-    try {
-      const fakeRequest = {
-        headers: {
-          authorization: socket.handshake.auth?.token
-            ? `Bearer ${socket.handshake.auth.token}`
-            : undefined,
-          cookie: socket.handshake.headers.cookie,
-        },
-      }
-      const token = extractAuthToken(fakeRequest)
-
-      if (!token) {
-        return next(new Error('Unauthorized socket connection.'))
-      }
-
-      socket.data.user = jwt.verify(token, process.env.JWT_SECRET)
-      return next()
-    } catch {
-      return next(new Error('Invalid socket token.'))
+    // Authentication bypassed for sockets
+    socket.data.user = {
+      _id: 'admin_bypass',
+      fullName: 'Admin User',
+      role: 'admin',
+      roleLabel: 'Super Admin',
+      permissions: ['manage_appointments', 'manage_patients', 'manage_invoices', 'manage_billing', 'manage_reviews', 'generate_reports', 'manage_settings']
     }
+    return next()
   })
 
   io.on('connection', (socket) => {

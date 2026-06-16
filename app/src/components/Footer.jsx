@@ -10,14 +10,12 @@ function Footer({ clinic }) {
       <div className="page-shell relative z-10 grid gap-16 lg:grid-cols-[1.5fr_1fr_1.5fr]">
         <div>
           <Link to="/" className="flex items-center gap-3 group">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gold/10 border border-gold/20 text-gold shadow-lg transition-transform duration-500 group-hover:rotate-12">
-              <Sparkles size={18} />
-            </div>
-            <div>
-              <p className="font-display text-2xl font-light tracking-wide text-white group-hover:text-gold transition-colors">
-                {clinic.name}
-              </p>
-            </div>
+             <img src="/logo.jpg" alt="Azure Smile Logo" className="h-10 md:h-12 w-auto object-contain rounded-lg" />
+             <div>
+               <p className="font-display text-2xl font-light tracking-wide text-white group-hover:text-gold transition-colors">
+                 {clinic.name}
+               </p>
+             </div>
           </Link>
           <p className="mt-6 max-w-sm text-sm leading-7 text-support-200 font-light">
             Redefining cosmetic dentistry through artistry, advanced robotics, and unparalleled comfort. Beverly Hills standards, delivered locally.

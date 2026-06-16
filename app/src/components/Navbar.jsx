@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from 'framer-motion'
-import { Menu, Phone, X, Sparkles } from 'lucide-react'
+import { Menu, Phone, X, Sparkles, Shield } from 'lucide-react'
 import { useState, useEffect, useRef } from 'react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
 
@@ -59,10 +59,8 @@ function Navbar({ clinic }) {
       }`}
     >
       <div className="page-shell flex h-16 items-center justify-between gap-4">
-        <Link to="/" className="flex items-center gap-4 group">
-          <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gold/10 border border-gold/20 text-gold shadow-lg transition-transform duration-500 group-hover:rotate-12">
-            <Sparkles size={20} />
-          </div>
+        <Link to="/" className="flex items-center gap-3 group">
+          <img src="/logo.jpg" alt="Azure Smile Logo" className="h-10 md:h-12 w-auto object-contain rounded-lg" />
           <div>
             <p className="font-display text-xl font-medium tracking-wide text-white group-hover:text-gold transition-colors">
               {clinic.name}
@@ -102,6 +100,9 @@ function Navbar({ clinic }) {
         </nav>
 
         <div className="hidden items-center gap-5 lg:flex">
+          <Link to="/admin" className="text-[10px] font-bold text-support-400 hover:text-white uppercase tracking-widest transition flex items-center gap-1.5">
+            <Shield size={12} /> Admin
+          </Link>
           <a
             href={`tel:${clinic.phone.replace(/\s+/g, '')}`}
             className="inline-flex items-center gap-2 text-sm font-light text-support-200 hover:text-white transition-colors"
@@ -142,9 +143,7 @@ function Navbar({ clinic }) {
             {/* Header */}
             <div className="flex items-center justify-between p-6 border-b border-white/5 bg-[#0F172A]">
               <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gold/10 text-gold border border-gold/20 shadow-lg">
-                  <Sparkles size={18} />
-                </div>
+                <img src="/logo.jpg" alt="Azure Smile Logo" className="h-8 md:h-10 w-auto object-contain rounded-lg" />
                 <div>
                   <span className="font-display font-medium text-white tracking-wide">{clinic.name}</span>
                   <p className="text-[9px] uppercase tracking-widest text-gold/70 font-semibold">Menu</p>
@@ -203,6 +202,10 @@ function Navbar({ clinic }) {
                   <span className="text-xs font-semibold tracking-wide uppercase">WhatsApp</span>
                 </a>
               </div>
+              <Link to="/admin" onClick={() => setOpen(false)} className="flex items-center justify-center gap-2 bg-[#111827] hover:bg-white/5 transition-colors rounded-xl p-3.5 border border-white/5 text-support-300 shadow-sm mt-4">
+                <Shield size={16} />
+                <span className="text-xs font-semibold tracking-wide uppercase">Admin Dashboard</span>
+              </Link>
             </div>
           </motion.div>
         )}

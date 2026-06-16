@@ -125,6 +125,33 @@ export function NewBookingModal({
 
   const estimatedAmount = selectedTreatment?.basePrice || 0
 
+  function handleNextStep() {
+    setError('')
+    if (step === 1) {
+      if (form.patientMode === 'new') {
+        if (!form.newPatientName?.trim()) return setError('New Patient Full Name is required')
+        if (!form.newPatientPhone?.trim()) return setError('New Patient Phone is required')
+        if (!/^\d{10}$/.test(form.newPatientPhone.trim())) return setError('New Patient Phone must be exactly 10 digits')
+      } else if (!form.patientId) {
+        return setError('Please select a patient')
+      }
+    } else if (step === 2 && !form.treatmentId) {
+      return setError('Please select a treatment')
+    } else if (step === 3 && !form.doctorId) {
+      return setError('Please select a doctor')
+    } else if (step === 4) {
+      if (!form.date) return setError('Please select a date')
+      if (!form.time) return setError('Please select a time')
+      const selectedDate = new Date(form.date)
+      const today = new Date()
+      today.setHours(0, 0, 0, 0)
+      if (selectedDate < today) {
+        return setError('Please select a valid future date')
+      }
+    }
+    setStep((s) => s + 1)
+  }
+
   async function handleComplete() {
     if (form.patientMode === 'new') {
       if (!form.newPatientName || form.newPatientName.trim() === '') {
@@ -399,7 +426,7 @@ export function NewBookingModal({
         {step < 7 ? (
           <button
             type="button"
-            onClick={() => setStep((value) => { setError(''); return value + 1 })}
+            onClick={handleNextStep}
             className="flex-1 rounded-xl bg-gold text-navy font-semibold py-3 hover:bg-gold-light transition-colors"
           >
             Continue

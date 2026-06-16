@@ -83,7 +83,7 @@ function App() {
       <Suspense fallback={<div className="h-screen w-full bg-[#020817] flex items-center justify-center text-support-300">Loading OS...</div>}>
         <AnimatePresence mode="wait">
           <Routes location={location} key={location.pathname}>
-            <Route path="/admin" element={<PageWrapper><AdminLoginPage /></PageWrapper>} />
+            <Route path="/admin" element={<PageWrapper><AdminDashboardPage /></PageWrapper>} />
             <Route path="/admin/dashboard" element={<PageWrapper><AdminDashboardPage /></PageWrapper>} />
             {/* Add more admin routes here later */}
           </Routes>
