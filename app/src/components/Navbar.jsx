@@ -12,6 +12,7 @@ const links = [
   ['Gallery', '/gallery'],
   ['Reviews', '/testimonials'],
   ['Blog', '/blog'],
+  ['Guide', '/how-to-use'],
   ['Contact', '/contact'],
 ]
 

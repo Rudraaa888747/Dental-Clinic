@@ -18,6 +18,7 @@ const BlogPage = lazy(() => import('./pages/BlogPage'))
 const BlogPostPage = lazy(() => import('./pages/BlogPostPage'))
 const AdminLoginPage = lazy(() => import('./pages/AdminLoginPage'))
 const AdminDashboardPage = lazy(() => import('./pages/AdminDashboardPage'))
+const HowToUsePage = lazy(() => import('./pages/HowToUsePage'))
 
 function App() {
   const [content, setContent] = useState(fallbackContent)
@@ -118,6 +119,7 @@ function App() {
             <Route path="/contact" element={<PageWrapper><ContactPage content={content} /></PageWrapper>} />
             <Route path="/blog" element={<PageWrapper><BlogPage content={content} /></PageWrapper>} />
             <Route path="/blog/:slug" element={<PageWrapper><BlogPostPage content={content} /></PageWrapper>} />
+            <Route path="/how-to-use" element={<PageWrapper><HowToUsePage /></PageWrapper>} />
           </Routes>
         </AnimatePresence>
       </Suspense>

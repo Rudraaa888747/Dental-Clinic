@@ -3,6 +3,7 @@ import Footer from './Footer'
 import Navbar from './Navbar'
 import StatusBanner from './StatusBanner'
 import WhatsappFloat from './WhatsappFloat'
+import WelcomeNotification from './WelcomeNotification'
 
 function ensureMeta(property, content) {
   const selector = property.startsWith('og:') ? `meta[property="${property}"]` : `meta[name="${property}"]`
@@ -70,6 +71,7 @@ function Layout({ clinic, title, description, mode, children }) {
       <main>{children}</main>
       <Footer clinic={clinic} />
       <WhatsappFloat clinic={clinic} />
+      <WelcomeNotification />
     </div>
   )
 }

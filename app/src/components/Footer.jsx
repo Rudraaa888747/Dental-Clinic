@@ -37,6 +37,7 @@ function Footer({ clinic }) {
             <Link to="/about" className="hover:text-gold transition-colors">The Clinic</Link>
             <Link to="/testimonials" className="hover:text-gold transition-colors">Patient Stories</Link>
             <Link to="/blog" className="hover:text-gold transition-colors">Journal</Link>
+            <Link to="/how-to-use" className="hover:text-gold transition-colors">Guide / How to Use</Link>
           </div>
         </div>
         
