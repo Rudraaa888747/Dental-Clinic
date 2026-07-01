@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "concurrently \"nodemon app/server/server.js\" \"vite --config app/vite.config.js\"",
+    "dev": "concurrently \"nodemon app/server/server.js\" \"vite --host --config app/vite.config.js\"",
     "build": "vite build --config app/vite.config.js",
     "lint": "eslint app --config app/eslint.config.js",
     "start": "node app/server/server.js"

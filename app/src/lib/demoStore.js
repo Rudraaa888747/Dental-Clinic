@@ -14,7 +14,12 @@ function read(key, fallback) {
 }
 
 function write(key, value) {
-  localStorage.setItem(key, JSON.stringify(value))
+  /* Fix: localStorage.setItem can throw in private browsing or when quota is exceeded */
+  try {
+    localStorage.setItem(key, JSON.stringify(value))
+  } catch {
+    // Silently fail — demo data won't persist but app continues
+  }
 }
 
 export const demoStore = {

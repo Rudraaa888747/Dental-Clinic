@@ -33,6 +33,14 @@ async function request(path, options = {}) {
     })
 
     if (!response.ok) {
+      /* Fix: Handle auth errors specifically */
+      if (response.status === 401 || response.status === 403) {
+        if (typeof window !== 'undefined') {
+          window.localStorage.removeItem('adminToken')
+          window.sessionStorage.removeItem('adminToken')
+        }
+        throw new Error('Session expired. Please login again.')
+      }
       let errorMessage = response.statusText || `Request failed with status ${response.status}`
       const contentType = response.headers.get('content-type') || ''
 
@@ -70,6 +78,13 @@ export const api = {
   getContent: async () => {
     const response = await request('/content')
     return { ...response, mode: 'live' }
+  },
+  getNextSlot: async () => {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve({ nextSlot: 'Today, 4:00 PM', spotsLeft: 3 })
+      }, 300)
+    })
   },
   submitAppointment: async (payload) => {
     const response = await request('/appointments', {

@@ -30,8 +30,9 @@ export async function createPublicAppointment(request, response) {
   const notification = await createNotification({
     type: 'appointment',
     title: 'New Online Booking',
-    message: `${appointment.name} booked a ${appointment.service}.`,
-    referenceId: appointment._id,
+    body: `${appointment.name} booked a ${appointment.service}.`,
+    entityType: 'appointment',
+    entityId: appointment._id,
   })
   
   emitRoleEvent('admin', 'notification:new', { notification })
@@ -56,8 +57,9 @@ export async function createPublicInquiry(request, response) {
   const notification = await createNotification({
     type: 'inquiry',
     title: 'New Patient Inquiry',
-    message: `Inquiry from ${inquiry.name}: ${inquiry.message.substring(0, 50)}...`,
-    referenceId: inquiry._id,
+    body: `Inquiry from ${inquiry.name}: ${inquiry.message.substring(0, 50)}...`,
+    entityType: 'inquiry',
+    entityId: inquiry._id,
   })
 
   emitRoleEvent('admin', 'notification:new', { notification })

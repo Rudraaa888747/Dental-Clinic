@@ -6,6 +6,7 @@ import Layout from './components/Layout'
 import PageWrapper from './components/PageWrapper'
 import { fallbackContent } from './data/fallbackContent'
 import { api } from './lib/api'
+import ScrollToTop from './components/ScrollToTop'
 
 const HomePage = lazy(() => import('./pages/HomePage'))
 const AboutPage = lazy(() => import('./pages/AboutPage'))
@@ -19,6 +20,7 @@ const BlogPostPage = lazy(() => import('./pages/BlogPostPage'))
 const AdminLoginPage = lazy(() => import('./pages/AdminLoginPage'))
 const AdminDashboardPage = lazy(() => import('./pages/AdminDashboardPage'))
 const HowToUsePage = lazy(() => import('./pages/HowToUsePage'))
+const FAQPage = lazy(() => import('./pages/FAQPage'))
 
 function App() {
   const [content, setContent] = useState(fallbackContent)
@@ -78,15 +80,14 @@ function App() {
     )
   }
 
-  // 3. Isolated Admin Router
   if (isAdminRoute) {
     return (
       <Suspense fallback={<div className="h-screen w-full bg-[#020817] flex items-center justify-center text-support-300">Loading OS...</div>}>
+        <ScrollToTop />
         <AnimatePresence mode="wait">
           <Routes location={location} key={location.pathname}>
             <Route path="/admin" element={<PageWrapper><AdminDashboardPage /></PageWrapper>} />
             <Route path="/admin/dashboard" element={<PageWrapper><AdminDashboardPage /></PageWrapper>} />
-            {/* Add more admin routes here later */}
           </Routes>
         </AnimatePresence>
       </Suspense>
@@ -108,6 +109,7 @@ function App() {
           </div>
         }
       >
+        <ScrollToTop />
         <AnimatePresence mode="wait">
           <Routes location={location} key={location.pathname}>
             <Route path="/" element={<PageWrapper><HomePage content={content} /></PageWrapper>} />
@@ -119,6 +121,7 @@ function App() {
             <Route path="/contact" element={<PageWrapper><ContactPage content={content} /></PageWrapper>} />
             <Route path="/blog" element={<PageWrapper><BlogPage content={content} /></PageWrapper>} />
             <Route path="/blog/:slug" element={<PageWrapper><BlogPostPage content={content} /></PageWrapper>} />
+            <Route path="/faq" element={<PageWrapper><FAQPage content={content} /></PageWrapper>} />
             <Route path="/how-to-use" element={<PageWrapper><HowToUsePage /></PageWrapper>} />
           </Routes>
         </AnimatePresence>

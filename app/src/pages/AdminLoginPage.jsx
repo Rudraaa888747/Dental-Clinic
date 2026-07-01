@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { api } from '../lib/api'
 import AnimatedSection from '../components/AnimatedSection'
@@ -17,6 +17,17 @@ function AdminLoginPage() {
   const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
+
+  /* Fix [Round 5]: Prevent indexing of admin routes */
+  useEffect(() => {
+    let meta = document.querySelector('meta[name="robots"]');
+    if (!meta) {
+      meta = document.createElement('meta');
+      meta.name = "robots";
+      document.head.appendChild(meta);
+    }
+    meta.content = "noindex, nofollow";
+  }, []);
 
   function validateForm() {
     if (!form.email.includes('@')) {
@@ -59,27 +70,24 @@ function AdminLoginPage() {
   }
 
   return (
-    <AnimatedSection className="section-space min-h-screen flex items-center justify-center bg-[#020817] relative overflow-hidden">
-      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-gold/5 blur-[120px] rounded-full pointer-events-none"></div>
-      
-      <div className="page-shell w-full max-w-md relative z-10">
+    <div className="min-h-screen flex items-center justify-center bg-[#F4F6F8] p-4">
+      <div className="w-[400px] max-w-[90vw] relative z-10">
 
-        <SectionHeading
-          eyebrow="Concierge Portal"
-          title="Welcome Back"
-          description="Authenticate to access the clinic management system."
-          align="center"
-        />
+        <div className="text-center mb-8">
+          <img src="/logo.jpg" alt="Azure Smile Logo" className="h-[48px] w-auto mx-auto mb-6 rounded-lg shadow-sm" />
+          <h1 className="font-display text-[1.5rem] font-bold text-[#111827]">Welcome Back</h1>
+          <p className="text-[#6B7280] text-[0.9rem] mt-2">Authenticate to access the clinic management system.</p>
+        </div>
 
         <form
           onSubmit={handleSubmit}
-          className="mt-10 glass-panel-dark rounded-[32px] p-8 shadow-2xl border-white/5 relative"
+          className="bg-[#FFFFFF] border border-[#E5E7EB] rounded-[16px] p-[40px] shadow-[0_4px_24px_rgba(0,0,0,0.08)] relative"
         >
           <div className="grid gap-6">
 
             {/* EMAIL */}
             <div>
-              <label className="mb-2 block text-xs font-semibold uppercase tracking-widest text-support-300">
+              <label className="mb-[6px] block text-[0.8rem] font-medium text-[#374151]">
                 Email
               </label>
               <input
@@ -90,13 +98,13 @@ function AdminLoginPage() {
                   setForm((v) => ({ ...v, email: e.target.value }))
                 }
                 placeholder="admin@example.com"
-                className="w-full rounded-2xl border border-white/10 bg-navy-900/50 px-5 py-4 text-white shadow-inner focus:border-gold focus:ring-1 focus:ring-gold transition-colors placeholder:text-support-300/50 outline-none"
+                className="w-full h-[40px] rounded-[8px] border border-[#E5E7EB] bg-white px-[12px] text-[0.9rem] text-[#111827] focus:border-[#0D5C4E] focus:ring-[3px] focus:ring-[#0D5C4E]/15 focus:outline-none transition-all placeholder:text-[#6B7280]"
               />
             </div>
 
             {/* PASSWORD */}
             <div className="relative">
-              <label className="mb-2 block text-xs font-semibold uppercase tracking-widest text-support-300">
+              <label className="mb-[6px] block text-[0.8rem] font-medium text-[#374151]">
                 Password
               </label>
               <input
@@ -107,23 +115,23 @@ function AdminLoginPage() {
                   setForm((v) => ({ ...v, password: e.target.value }))
                 }
                 placeholder="Enter password"
-                className="w-full rounded-2xl border border-white/10 bg-navy-900/50 px-5 py-4 pr-12 text-white shadow-inner focus:border-gold focus:ring-1 focus:ring-gold transition-colors placeholder:text-support-300/50 outline-none"
+                className="w-full h-[40px] rounded-[8px] border border-[#E5E7EB] bg-white px-[12px] pr-10 text-[0.9rem] text-[#111827] focus:border-[#0D5C4E] focus:ring-[3px] focus:ring-[#0D5C4E]/15 focus:outline-none transition-all placeholder:text-[#6B7280]"
               />
 
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-4 top-11 text-support-300 hover:text-white transition-colors"
+                className="absolute right-3 top-[32px] text-[#6B7280] hover:text-[#111827] transition-colors"
               >
-                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
               </button>
             </div>
 
             {/* REMEMBER + FORGOT */}
             <div className="flex items-center justify-between text-sm">
-              <label className="flex items-center gap-3 cursor-pointer text-support-200 hover:text-white transition-colors group">
-                <div className={`w-5 h-5 rounded border flex items-center justify-center transition-colors ${form.remember ? 'bg-gold border-gold' : 'border-white/20 group-hover:border-white/40'}`}>
-                  {form.remember && <svg className="w-3 h-3 text-navy" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>}
+              <label className="flex items-center gap-2 cursor-pointer text-[#374151] hover:text-[#111827] transition-colors group">
+                <div className={`w-[18px] h-[18px] rounded-[4px] border flex items-center justify-center transition-colors ${form.remember ? 'bg-[#0D5C4E] border-[#0D5C4E]' : 'border-[#E5E7EB] bg-white group-hover:border-[#0D5C4E]'}`}>
+                  {form.remember && <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>}
                 </div>
                 <input
                   type="checkbox"
@@ -136,13 +144,13 @@ function AdminLoginPage() {
                     }))
                   }
                 />
-                Remember me
+                <span className="text-[0.85rem]">Remember me</span>
               </label>
             </div>
 
             {/* ERROR */}
             {error && (
-              <div className="text-sm text-rose-400 bg-rose-500/10 px-4 py-3 rounded-xl border border-rose-500/30 text-center">
+              <div className="text-[0.85rem] font-medium text-[#991B1B] bg-[#FEE2E2] px-[12px] py-[12px] rounded-[8px] border border-[#FCA5A5] text-center">
                 {error}
               </div>
             )}
@@ -151,9 +159,9 @@ function AdminLoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className="mt-2 flex items-center justify-center gap-2 rounded-full bg-gold px-6 py-4 text-sm font-semibold uppercase tracking-widest text-navy shadow-gold hover:bg-gold-light hover:scale-[1.02] transition-all disabled:opacity-70 disabled:hover:scale-100"
+              className="mt-2 w-full h-[44px] rounded-[8px] bg-[#0D5C4E] text-white font-semibold text-[0.9rem] flex items-center justify-center gap-2 hover:bg-[#1A7A68] transition-colors disabled:opacity-70"
             >
-              {loading && <Loader2 className="animate-spin" size={18} />}
+              {loading && <Loader2 className="animate-spin" size={16} />}
               {loading ? 'Authenticating...' : 'Access Portal'}
             </button>
 
@@ -164,16 +172,15 @@ function AdminLoginPage() {
         <div className="mt-8 text-center">
           <button
             onClick={() => navigate('/')}
-            className="inline-flex items-center gap-2 text-sm font-medium uppercase tracking-widest text-support-300 hover:text-white transition-colors group"
+            className="inline-flex items-center gap-2 text-[0.85rem] font-medium text-[#6B7280] hover:text-[#111827] transition-colors group"
           >
             <ArrowLeft size={16} className="transition-transform group-hover:-translate-x-1" />
             Return to Public Site
           </button>
         </div>
 
-        {/* FOOTER */}
       </div>
-    </AnimatedSection>
+    </div>
   )
 }
 

@@ -36,54 +36,54 @@ function ServiceCard({ service }) {
   return (
     <motion.div
       whileHover={{ y: -8, scale: 1.01 }}
-      className="group glass-panel-dark rounded-[32px] p-6 sm:p-8 shadow-card transition-all duration-300 hover:shadow-gold hover:border-gold/30 relative overflow-hidden flex flex-col h-full"
+      className="group bg-white rounded-xl border border-[#E8E0D5] p-[20px] sm:p-6 shadow-[0_2px_16px_rgba(0,0,0,0.06)] hover:shadow-[0_12px_40px_rgba(13,92,78,0.12)] transition-all duration-300 border-l-[3px] border-l-transparent group-hover:border-l-[#0D5C4E] relative overflow-hidden flex flex-col h-full"
     >
-      <div className="absolute top-0 right-0 w-48 h-48 bg-gold/5 blur-[50px] rounded-full group-hover:bg-gold/10 transition-colors"></div>
+      <div className="absolute top-0 right-0 w-48 h-48 bg-[rgba(13,92,78,0.04)] blur-[50px] rounded-full group-hover:bg-[rgba(13,92,78,0.08)] transition-colors"></div>
       
       <div className="flex items-start justify-between gap-4 relative z-10">
-        <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-white/5 border border-white/10 text-gold shadow-lg backdrop-blur-md group-hover:scale-110 transition-transform duration-500">
+        <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-[#E6F2F0] text-[#0D5C4E] group-hover:scale-110 transition-transform duration-500">
           <Icon size={26} strokeWidth={1.5} />
         </div>
-        <div className="inline-flex rounded-full bg-gold/10 border border-gold/20 px-3 py-1 text-xs font-semibold uppercase tracking-widest text-gold">
+        <div className="inline-flex text-[0.9rem] font-bold text-[#0D5C4E] bg-[#E6F2F0] px-[10px] py-[4px] rounded-[999px] border border-[rgba(13,92,78,0.2)]">
           {service.price}
         </div>
       </div>
       
       <div className="relative z-10 mt-6 flex-grow">
-        <h3 className="font-display text-2xl font-medium text-white group-hover:text-gold transition-colors">
+        <h3 className="font-display text-[clamp(1.2rem,3vw,1.5rem)] font-medium text-[#1A1A18] group-hover:text-[#0D5C4E] transition-colors">
           {service.name}
         </h3>
-        <p className="mt-3 text-sm leading-relaxed text-support-200 font-light">
+        <p className="mt-3 text-sm leading-relaxed text-[#4A4A45] font-light">
           {service.description}
         </p>
 
-        <div className="mt-6 grid grid-cols-2 gap-y-4 gap-x-2 border-t border-white/5 pt-6">
+        <div className="mt-6 grid grid-cols-2 gap-[12px] sm:gap-y-4 sm:gap-x-3 border-t border-[#E8E0D5] pt-6">
           <div className="flex items-start gap-2 overflow-hidden">
-            <Clock className="text-support-300 w-4 h-4 mt-0.5 shrink-0" />
+            <Clock className="text-[#0D5C4E] w-[18px] h-[18px] mt-0.5 shrink-0" />
             <div className="min-w-0 overflow-hidden">
-              <p className="text-[10px] uppercase tracking-widest text-support-300 font-semibold truncate">Duration</p>
-              <p className="text-xs text-white mt-1 truncate" title={service.duration}>{service.duration}</p>
+              <p className="text-[10px] uppercase tracking-widest text-[#8A8A82] font-semibold truncate">Duration</p>
+              <p className="text-xs text-[#1A1A18] mt-1 truncate" title={service.duration}>{service.duration}</p>
             </div>
           </div>
           <div className="flex items-start gap-2 overflow-hidden">
-            <Activity className="text-support-300 w-4 h-4 mt-0.5 shrink-0" />
+            <Activity className="text-[#0D5C4E] w-[18px] h-[18px] mt-0.5 shrink-0" />
             <div className="min-w-0 overflow-hidden">
-              <p className="text-[10px] uppercase tracking-widest text-support-300 font-semibold truncate">Pain Level</p>
-              <p className="text-xs text-white mt-1 truncate" title={service.painLevel}>{service.painLevel}</p>
+              <p className="text-[10px] uppercase tracking-widest text-[#8A8A82] font-semibold truncate">Pain Level</p>
+              <p className="text-xs text-[#1A1A18] mt-1 truncate" title={service.painLevel}>{service.painLevel}</p>
             </div>
           </div>
           <div className="flex items-start gap-2 overflow-hidden">
-            <Calendar className="text-support-300 w-4 h-4 mt-0.5 shrink-0" />
+            <Calendar className="text-[#0D5C4E] w-[18px] h-[18px] mt-0.5 shrink-0" />
             <div className="min-w-0 overflow-hidden">
-              <p className="text-[10px] uppercase tracking-widest text-support-300 font-semibold truncate">Recovery</p>
-              <p className="text-xs text-white mt-1 truncate" title={service.recovery}>{service.recovery}</p>
+              <p className="text-[10px] uppercase tracking-widest text-[#8A8A82] font-semibold truncate">Recovery</p>
+              <p className="text-xs text-[#1A1A18] mt-1 truncate" title={service.recovery}>{service.recovery}</p>
             </div>
           </div>
           <div className="flex items-start gap-2 overflow-hidden">
-            <Cpu className="text-support-300 w-4 h-4 mt-0.5 shrink-0" />
+            <Cpu className="text-[#0D5C4E] w-[18px] h-[18px] mt-0.5 shrink-0" />
             <div className="min-w-0 overflow-hidden">
-              <p className="text-[10px] uppercase tracking-widest text-support-300 font-semibold truncate">Tech</p>
-              <p className="text-xs text-white mt-1 truncate" title={service.technology}>{service.technology}</p>
+              <p className="text-[10px] uppercase tracking-widest text-[#8A8A82] font-semibold truncate">Tech</p>
+              <p className="text-xs text-[#1A1A18] mt-1 truncate" title={service.technology}>{service.technology}</p>
             </div>
           </div>
         </div>
@@ -92,7 +92,7 @@ function ServiceCard({ service }) {
       <div className="relative z-10 mt-8">
         <Link
           to="/appointment"
-          className="flex w-full items-center justify-center gap-2 rounded-xl bg-white/5 border border-white/10 px-4 py-3 text-sm font-medium text-white transition hover:bg-gold hover:text-navy hover:border-gold group-hover:bg-gold group-hover:text-navy"
+          className="w-full flex items-center justify-center gap-2 bg-[#0D5C4E] text-white font-semibold h-[44px] rounded-[10px] hover:bg-[#1A7A68] transition-all duration-200"
         >
           Book Consultation
           <ArrowUpRight size={16} />

@@ -27,7 +27,7 @@ function BeforeAfterCard({ item }) {
   }, [isDragging, handleMove])
 
   return (
-    <div className="relative overflow-hidden rounded-[32px] glass-panel-dark border-white/5 shadow-2xl p-2 group">
+    <div className="relative overflow-hidden rounded-[32px] bg-white border border-border shadow-2xl p-2 group">
       <div 
         ref={containerRef}
         className="relative h-[400px] sm:h-[500px] rounded-[24px] overflow-hidden cursor-ew-resize"
@@ -65,18 +65,18 @@ function BeforeAfterCard({ item }) {
         
         {/* Slider Handle */}
         <div
-          className="absolute inset-y-0 flex items-center justify-center w-0.5 bg-gold/50 shadow-[0_0_10px_rgba(212,175,55,0.5)] pointer-events-none"
+          className="absolute inset-y-0 flex items-center justify-center w-0.5 bg-white shadow-soft pointer-events-none"
           style={{ left: `${position}%` }}
         >
-          <div className="absolute w-12 h-12 rounded-full bg-white/10 backdrop-blur-md border border-gold/30 shadow-[0_0_20px_rgba(212,175,55,0.3)] flex items-center justify-center text-gold pointer-events-auto transition-transform group-hover:scale-110">
+          <div className="absolute w-12 h-12 rounded-full bg-white border border-border shadow-lifted flex items-center justify-center text-accent pointer-events-auto transition-transform group-hover:scale-110">
             <MoveHorizontal size={20} />
           </div>
         </div>
         
-        <div className="absolute top-6 left-6 rounded-full bg-navy/60 backdrop-blur-md border border-white/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-support-200 pointer-events-none">
+        <div className="absolute top-6 left-6 rounded-full bg-charcoal/60 backdrop-blur-md border border-white/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-white pointer-events-none">
           Before
         </div>
-        <div className="absolute top-6 right-6 rounded-full bg-gold/90 backdrop-blur-md border border-gold/20 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-navy pointer-events-none shadow-[0_0_15px_rgba(212,175,55,0.3)]">
+        <div className="absolute top-6 right-6 rounded-full bg-accent/90 backdrop-blur-md border border-accent/20 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-white pointer-events-none shadow-teal">
           After
         </div>
       </div>

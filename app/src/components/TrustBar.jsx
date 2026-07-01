@@ -38,10 +38,10 @@ function TrustBar({ clinic }) {
           <motion.div
             key={index}
             variants={itemVariant}
-            className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md px-5 py-4 flex flex-col gap-3 group transition-colors hover:bg-white/10"
+            className="rounded-2xl border border-border bg-white shadow-soft px-5 py-4 flex flex-col gap-3 group transition-colors hover:border-accent/30"
           >
-            <Icon size={20} className="text-gold" />
-            <span className="text-sm font-light text-support-200 group-hover:text-white transition-colors">{item.text}</span>
+            <Icon size={20} className="text-accent" />
+            <span className="text-sm font-light text-charcoal-200 transition-colors">{item.text}</span>
           </motion.div>
         )
       })}

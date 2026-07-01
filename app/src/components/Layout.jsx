@@ -43,10 +43,14 @@ function Layout({ clinic, title, description, mode, children }) {
       '@context': 'https://schema.org',
       '@type': 'MedicalBusiness',
       name: clinic.name,
+      image: 'https://azuresmiles.com/logo.png', /* Fix [Round 5]: Added image */
       description,
       telephone: clinic.phone,
       email: clinic.email,
       address: { '@type': 'PostalAddress', streetAddress: clinic.address },
+      geo: { '@type': 'GeoCoordinates', latitude: '40.7128', longitude: '-74.0060' }, /* Fix [Round 5]: Added geo */
+      priceRange: '$$', /* Fix [Round 5]: Added priceRange */
+      openingHours: 'Mo-Su 09:00-19:00', /* Fix [Round 5]: Added openingHours */
       url,
       sameAs: [],
     }
@@ -65,13 +69,13 @@ function Layout({ clinic, title, description, mode, children }) {
   }, [clinic, description, title])
 
   return (
-    <div className="min-h-screen bg-transparent">
-      <StatusBanner mode={mode} />
-      <Navbar clinic={clinic} />
-      <main>{children}</main>
+    <div className="min-h-screen bg-[#F9F6F0] overflow-x-hidden pb-safe" style={{ scrollBehavior: 'smooth' }}>
+      <div className="relative z-[90]"><StatusBanner mode={mode} /></div>
+      <div className="relative z-[80]"><Navbar clinic={clinic} /></div>
+      <main className="relative z-10">{children}</main>
       <Footer clinic={clinic} />
-      <WhatsappFloat clinic={clinic} />
-      <WelcomeNotification />
+      <div className="relative z-50"><WhatsappFloat clinic={clinic} /></div>
+      <div className="relative z-[100]"><WelcomeNotification /></div>
     </div>
   )
 }

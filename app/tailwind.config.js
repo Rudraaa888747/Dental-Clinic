@@ -6,32 +6,71 @@ export default {
   theme: {
     extend: {
       colors: {
-        navy: {
-          DEFAULT: '#0F172A',
-          800: '#1e293b',
-          900: '#0f172a',
+        ivory: {
+          DEFAULT: '#F9F6F0',
+          50: '#FDFCFA',
+          100: '#F9F6F0',
+          200: '#F3EFE8',
+          300: '#EDE6DA',
+          400: '#E8E0D5',
+          500: '#D4C9B8',
+        },
+        surface: {
+          DEFAULT: '#FFFFFF',
+          2: '#F3EFE8',
+        },
+        border: {
+          DEFAULT: '#E8E0D5',
+          strong: '#D4C9B8',
+        },
+        accent: {
+          DEFAULT: '#0D5C4E',
+          light: '#E6F2F0',
+          mid: '#1A7A68',
+          dark: '#083D35',
+        },
+        muted: {
+          DEFAULT: '#8A8A82',
+        },
+        teal: {
+          DEFAULT: '#0D5C4E',
+          light: '#E6F2F0',
+          mid: '#1A7A68',
+          dark: '#083D35',
+          50: '#E6F2F0',
+          100: '#B8DDD8',
+          500: '#1A7A68',
+          600: '#0D5C4E',
+          900: '#083D35',
         },
         gold: {
-          DEFAULT: '#D4AF37',
-          light: '#F3E5AB',
-          dark: '#AA8C2C',
+          DEFAULT: '#C9A84C',
+          light: '#F5EDD3',
+          dark: '#A8872E',
         },
-        softwhite: '#F8FAFC',
-        support: {
-          100: '#E2E8F0',
-          200: '#CBD5E1',
-          300: '#94A3B8',
+        charcoal: {
+          DEFAULT: '#1A1A18',
+          200: '#4A4A45',
+          300: '#6A6A62',
+          400: '#8A8A82',
+        },
+        status: {
+          success: '#0D5C4E',
+          warning: '#C9A84C',
+          error: '#C0392B',
+          info: '#1A7A68',
         }
       },
       fontFamily: {
         sans: ['Inter', 'sans-serif'],
-        display: ['Outfit', 'sans-serif'],
+        display: ['"Playfair Display"', 'serif'],
       },
       boxShadow: {
-        soft: '0 20px 60px rgba(15, 23, 42, 0.08)',
-        card: '0 16px 40px rgba(15, 23, 42, 0.06)',
-        glow: '0 28px 70px rgba(212, 175, 55, 0.15)',
-        gold: '0 0 40px rgba(212, 175, 55, 0.2)',
+        soft: '0 4px 24px rgba(26, 26, 24, 0.06)',
+        card: '0 2px 16px rgba(26, 26, 24, 0.08)',
+        lifted: '0 8px 32px rgba(26, 26, 24, 0.12)',
+        teal: '0 8px 24px rgba(13, 92, 78, 0.2)',
+        gold: '0 4px 16px rgba(201, 168, 76, 0.2)',
       },
       backgroundImage: {
         'hero-glow': 'radial-gradient(circle at top, rgba(212, 175, 55, 0.15), transparent 42%), linear-gradient(135deg, rgba(15,23,42,1), rgba(15,23,42,0.95))',

@@ -55,7 +55,7 @@ export async function getAdminPatientProfile(request, response) {
 
 export async function patchAppointmentStatus(request, response) {
   const { status } = request.body
-  if (!['pending', 'confirmed', 'completed'].includes(status)) {
+  if (!['pending', 'confirmed', 'in-progress', 'completed', 'cancelled'].includes(status)) {
     return response.status(400).json({ message: 'Invalid appointment status.' })
   }
 

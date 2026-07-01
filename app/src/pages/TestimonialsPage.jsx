@@ -4,8 +4,8 @@ import TestimonialSlider from '../components/TestimonialSlider'
 
 function TestimonialsPage({ content }) {
   return (
-    <AnimatedSection className="section-space min-h-screen bg-navy pt-32 pb-24 relative overflow-hidden">
-      <div className="absolute top-1/4 left-0 w-[500px] h-[500px] bg-gold/5 blur-[120px] rounded-full pointer-events-none"></div>
+    <AnimatedSection className="section-space min-h-screen bg-ivory pt-32 pb-24 relative overflow-hidden">
+      <div className="absolute top-1/4 left-0 w-[500px] h-[500px] bg-accent/5 blur-[120px] rounded-full pointer-events-none"></div>
       <div className="page-shell relative z-10">
         <SectionHeading
           eyebrow="Patient Stories"
